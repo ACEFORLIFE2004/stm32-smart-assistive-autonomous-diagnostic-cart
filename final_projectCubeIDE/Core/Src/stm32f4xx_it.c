@@ -57,6 +57,8 @@
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_dac1;
 extern DMA_HandleTypeDef hdma_spi4_rx;
+extern TIM_HandleTypeDef htim5;
+extern TIM_HandleTypeDef htim9;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -200,6 +202,20 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
+  * @brief This function handles EXTI line 4 interrupt.
+  */
+void EXTI4_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI4_IRQn 0 */
+
+  /* USER CODE END EXTI4_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(SENSOR_ECHO_Pin);
+  /* USER CODE BEGIN EXTI4_IRQn 1 */
+
+  /* USER CODE END EXTI4_IRQn 1 */
+}
+
+/**
   * @brief This function handles DMA1 stream5 global interrupt.
   */
 void DMA1_Stream5_IRQHandler(void)
@@ -229,6 +245,20 @@ void EXTI9_5_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles TIM1 break interrupt and TIM9 global interrupt.
+  */
+void TIM1_BRK_TIM9_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM1_BRK_TIM9_IRQn 0 */
+
+  /* USER CODE END TIM1_BRK_TIM9_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim9);
+  /* USER CODE BEGIN TIM1_BRK_TIM9_IRQn 1 */
+
+  /* USER CODE END TIM1_BRK_TIM9_IRQn 1 */
+}
+
+/**
   * @brief This function handles EXTI line[15:10] interrupts.
   */
 void EXTI15_10_IRQHandler(void)
@@ -236,12 +266,27 @@ void EXTI15_10_IRQHandler(void)
   /* USER CODE BEGIN EXTI15_10_IRQn 0 */
 
   /* USER CODE END EXTI15_10_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(COL1_Pin);
-  HAL_GPIO_EXTI_IRQHandler(COL2_Pin);
+  HAL_GPIO_EXTI_IRQHandler(IR_RX_LEFT_Pin);
+  HAL_GPIO_EXTI_IRQHandler(IR_RX_CENTER_Pin);
+  HAL_GPIO_EXTI_IRQHandler(IR_RX_RIGHT_Pin);
   HAL_GPIO_EXTI_IRQHandler(COL3_Pin);
   /* USER CODE BEGIN EXTI15_10_IRQn 1 */
 
   /* USER CODE END EXTI15_10_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM5 global interrupt.
+  */
+void TIM5_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM5_IRQn 0 */
+
+  /* USER CODE END TIM5_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim5);
+  /* USER CODE BEGIN TIM5_IRQn 1 */
+
+  /* USER CODE END TIM5_IRQn 1 */
 }
 
 /**
