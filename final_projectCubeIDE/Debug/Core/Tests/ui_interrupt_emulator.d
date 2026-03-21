@@ -39,7 +39,7 @@ Core/Tests/ui_interrupt_emulator.o: ../Core/Tests/ui_interrupt_emulator.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/debugger.h ../Core/Inc/timer_system.h ../Core/Inc/system.h \
  ../Core/Inc/project.h ../Core/Inc/diagnostic_handler.h \
- ../Core/Inc/assistive_cart_logic.h
+ ../Core/Inc/fixedpt.h ../Core/Inc/assistive_cart_logic.h
 ../Core/Tests/ui_interrupt_emulator.h:
 ../Core/Tests/project_assert.h:
 ../Core/Inc/project.h:
@@ -86,4 +86,5 @@ Core/Tests/ui_interrupt_emulator.o: ../Core/Tests/ui_interrupt_emulator.c \
 ../Core/Inc/system.h:
 ../Core/Inc/project.h:
 ../Core/Inc/diagnostic_handler.h:
+../Core/Inc/fixedpt.h:
 ../Core/Inc/assistive_cart_logic.h:

@@ -37,7 +37,7 @@ Core/Src/diagnostic_handler.o: ../Core/Src/diagnostic_handler.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/debugger.h ../Core/Inc/timer_system.h
+ ../Core/Inc/debugger.h ../Core/Inc/timer_system.h ../Core/Inc/fixedpt.h
 ../Core/Inc/diagnostic_handler.h:
 ../Core/Inc/project.h:
 ../Core/Inc/config.h:
@@ -80,3 +80,4 @@ Core/Src/diagnostic_handler.o: ../Core/Src/diagnostic_handler.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/Inc/debugger.h:
 ../Core/Inc/timer_system.h:
+../Core/Inc/fixedpt.h:
