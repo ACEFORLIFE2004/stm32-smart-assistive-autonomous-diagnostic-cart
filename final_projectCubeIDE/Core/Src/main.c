@@ -59,8 +59,6 @@
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-extern SPI_HandleTypeDef hspi1;
-
 /* USER CODE END 0 */
 
 /**
@@ -91,13 +89,13 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_DMA_Init();
+//  MX_GPIO_Init();
+//  MX_DMA_Init();
 //  MX_SPI4_Init();
 //  MX_ADC1_Init();
 //  MX_DAC_Init();
 //  MX_I2C1_Init();
-  MX_SPI1_Init();
+//  MX_SPI1_Init();
 //  MX_TIM11_Init();
 //  MX_TIM14_Init();
 //  MX_TIM6_Init();
@@ -107,20 +105,7 @@ int main(void)
 //  MX_TIM2_Init();
   MX_TIM5_Init();
   MX_TIM9_Init();
-
   /* USER CODE BEGIN 2 */
-  HAL_Delay(500);
-
-  LCD_Init();
-
-  // Fill background with Dark Blue (0x0010)
-  LCD_DrawRect(0, 0, 320, 240, 0x0010);
-
-  // Draw a "START" button (Green)
-  LCD_DrawRect(40, 80, 100, 60, 0x07E0);
-
-  // Draw a "STOP" button (Red)
-  LCD_DrawRect(180, 80, 100, 60, 0xF800);
 
   /* USER CODE END 2 */
 

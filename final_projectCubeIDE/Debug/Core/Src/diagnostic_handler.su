@@ -1,2 +1,2 @@
-../Core/Src/diagnostic_handler.c:42:6:set_diagnostic_boot_state	4	static
-../Core/Src/diagnostic_handler.c:46:6:diagnostic_update	4	static
+../Core/Src/diagnostic_handler.c:21:6:set_diagnostic_boot_state	4	static
+../Core/Src/diagnostic_handler.c:25:6:diagnostic_update	4	static

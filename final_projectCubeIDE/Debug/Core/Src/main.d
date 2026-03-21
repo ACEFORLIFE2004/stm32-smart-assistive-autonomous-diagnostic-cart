@@ -43,8 +43,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Core/Inc/project.h ../Core/Inc/config.h ../Core/Inc/main.h \
  ../Core/Inc/debugger.h ../Core/Inc/timer_system.h ../Core/Inc/system.h \
  ../Core/Inc/project.h ../Core/Inc/diagnostic_handler.h \
- ../Core/Inc/fixedpt.h ../Core/Inc/assistive_cart_logic.h \
- ../Core/Src/../Tests/test_project.h \
+ ../Core/Inc/assistive_cart_logic.h ../Core/Src/../Tests/test_project.h \
  ../Core/Src/../Tests/ui_interrupt_emulator.h \
  ../Core/Src/../Tests/project_assert.h
 ../Core/Inc/main.h:
@@ -100,7 +99,6 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/system.h:
 ../Core/Inc/project.h:
 ../Core/Inc/diagnostic_handler.h:
-../Core/Inc/fixedpt.h:
 ../Core/Inc/assistive_cart_logic.h:
 ../Core/Src/../Tests/test_project.h:
 ../Core/Src/../Tests/ui_interrupt_emulator.h:
