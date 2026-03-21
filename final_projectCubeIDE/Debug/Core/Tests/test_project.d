@@ -40,6 +40,8 @@ Core/Tests/test_project.o: ../Core/Tests/test_project.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/debugger.h ../Core/Inc/timer_system.h ../Core/Inc/system.h \
  ../Core/Inc/project.h ../Core/Inc/diagnostic_handler.h \
+ ../Core/Inc/wave_generator.h ../Core/Inc/sine_lut.h \
+ ../Core/Inc/fixedpt.h ../Core/Inc/dsp.h \
  ../Core/Inc/assistive_cart_logic.h
 ../Core/Tests/test_project.h:
 ../Core/Tests/ui_interrupt_emulator.h:
@@ -88,4 +90,8 @@ Core/Tests/test_project.o: ../Core/Tests/test_project.c \
 ../Core/Inc/system.h:
 ../Core/Inc/project.h:
 ../Core/Inc/diagnostic_handler.h:
+../Core/Inc/wave_generator.h:
+../Core/Inc/sine_lut.h:
+../Core/Inc/fixedpt.h:
+../Core/Inc/dsp.h:
 ../Core/Inc/assistive_cart_logic.h:

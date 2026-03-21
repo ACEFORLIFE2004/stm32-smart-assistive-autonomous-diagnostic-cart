@@ -23,6 +23,8 @@
 #include "project.h"
 #include "system.h"
 
+#include "tft_lcd.h"
+
 #include "../Tests/test_project.h"
 
 /* Private includes ----------------------------------------------------------*/

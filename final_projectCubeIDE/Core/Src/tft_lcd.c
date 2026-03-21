@@ -34,7 +34,7 @@ void LCD_Init(void) {
     LCD_WriteData(0x55);    // 16-bit
 
     LCD_WriteCommand(0x36); // Rotation
-    LCD_WriteData(0x28);    // Landscape
+    LCD_WriteData(0xE8);    // Landscape
 
     LCD_WriteCommand(0x29); // Display ON
 }
@@ -67,3 +67,57 @@ void LCD_DrawRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color
 
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_SET);   // CS High
 }
+
+void LCD_DrawChar(uint16_t x, uint16_t y, char c, FontDef_t font, uint16_t color, uint16_t bg) {
+    uint32_t i, b, j;
+
+    // Set the window for the character
+    LCD_SetAddressWindow(x, y, x + font.FontWidth - 1, y + font.FontHeight - 1);
+
+    // Loop through each row of the character (18 rows)
+    for (i = 0; i < font.FontHeight; i++) {
+        // Get the 16-bit row data for the character (ASCII offset is 32)
+        b = font.data[(c - 32) * font.FontHeight + i];
+
+        // Loop through each bit (11 bits wide)
+        for (j = 0; j < font.FontWidth; j++) {
+            // Check if bit is set (starting from the most significant bit)
+            if ((b << j) & 0x8000) {
+                // Send Color (High Byte, then Low Byte)
+                uint8_t colorData[] = { color >> 8, color & 0xFF };
+                HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET); // DC High
+                HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_RESET); // CS Low
+                HAL_SPI_Transmit(&hspi1, colorData, 2, 10);
+            } else {
+                // Send Background Color
+                uint8_t bgData[] = { bg >> 8, bg & 0xFF };
+                HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET); // DC High
+                HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_RESET); // CS Low
+                HAL_SPI_Transmit(&hspi1, bgData, 2, 10);
+            }
+        }
+    }
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_SET); // CS High
+}
+
+void LCD_WriteString(uint16_t x, uint16_t y, const char* str, FontDef_t font, uint16_t color, uint16_t bg) {
+    while (*str) {
+        // Check if we ran off the screen
+        if (x + font.FontWidth >= 320) break;
+
+        LCD_DrawChar(x, y, *str, font, color, bg);
+        x += font.FontWidth; // Move to the next character position
+        str++;
+    }
+}
+
+void LCD_DrawSigMain() {
+
+	LCD_DrawRect(0, 0, 320, 240, 0x0000);
+
+	LCD_DrawRect(5, 5, 310, 160, 0x7BEF);
+
+	LCD_WriteString(5, 180, "1: Select Arbitrary Waveform", Font_11x18, 0xFFFF, 0x0000);
+	LCD_WriteString(5, 200, "2: Input a Waveform", Font_11x18, 0xFFFF, 0x0000);
+}
+

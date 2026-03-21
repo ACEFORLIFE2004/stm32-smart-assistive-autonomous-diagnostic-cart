@@ -1,6 +1,6 @@
 Core/Src/diagnostic_handler.o: ../Core/Src/diagnostic_handler.c \
- ../Core/Inc/diagnostic_handler.h ../Core/Inc/project.h \
- ../Core/Inc/config.h ../Core/Inc/main.h \
+ ../Core/Inc/diagnostic_handler.h ../Core/Inc/wave_generator.h \
+ ../Core/Inc/project.h ../Core/Inc/config.h ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -37,8 +37,10 @@ Core/Src/diagnostic_handler.o: ../Core/Src/diagnostic_handler.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/debugger.h ../Core/Inc/timer_system.h
+ ../Core/Inc/debugger.h ../Core/Inc/timer_system.h ../Core/Inc/sine_lut.h \
+ ../Core/Inc/fixedpt.h ../Core/Inc/dsp.h
 ../Core/Inc/diagnostic_handler.h:
+../Core/Inc/wave_generator.h:
 ../Core/Inc/project.h:
 ../Core/Inc/config.h:
 ../Core/Inc/main.h:
@@ -80,3 +82,6 @@ Core/Src/diagnostic_handler.o: ../Core/Src/diagnostic_handler.c \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/Inc/debugger.h:
 ../Core/Inc/timer_system.h:
+../Core/Inc/sine_lut.h:
+../Core/Inc/fixedpt.h:
+../Core/Inc/dsp.h:

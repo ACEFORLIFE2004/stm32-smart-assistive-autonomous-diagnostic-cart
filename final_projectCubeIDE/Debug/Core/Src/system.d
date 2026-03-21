@@ -37,8 +37,10 @@ Core/Src/system.o: ../Core/Src/system.c ../Core/Inc/system.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/debugger.h ../Core/Inc/timer_system.h \
- ../Core/Inc/diagnostic_handler.h ../Core/Inc/assistive_cart_logic.h \
- ../FATFS/App/fatfs.h ../Middlewares/Third_Party/FatFs/src/ff.h \
+ ../Core/Inc/diagnostic_handler.h ../Core/Inc/wave_generator.h \
+ ../Core/Inc/sine_lut.h ../Core/Inc/fixedpt.h ../Core/Inc/dsp.h \
+ ../Core/Inc/assistive_cart_logic.h ../FATFS/App/fatfs.h \
+ ../Middlewares/Third_Party/FatFs/src/ff.h \
  ../Middlewares/Third_Party/FatFs/src/integer.h ../FATFS/Target/ffconf.h \
  ../Core/Inc/main.h ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h \
  ../Middlewares/Third_Party/FatFs/src/diskio.h \
@@ -86,6 +88,10 @@ Core/Src/system.o: ../Core/Src/system.c ../Core/Inc/system.h \
 ../Core/Inc/debugger.h:
 ../Core/Inc/timer_system.h:
 ../Core/Inc/diagnostic_handler.h:
+../Core/Inc/wave_generator.h:
+../Core/Inc/sine_lut.h:
+../Core/Inc/fixedpt.h:
+../Core/Inc/dsp.h:
 ../Core/Inc/assistive_cart_logic.h:
 ../FATFS/App/fatfs.h:
 ../Middlewares/Third_Party/FatFs/src/ff.h:
