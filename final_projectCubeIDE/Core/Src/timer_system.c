@@ -101,4 +101,15 @@ void enable_dac_dma_trigger(uint32_t conv_freq){
 		Error_Handler();
 	}
 }
-void disable_dac_dma_trigger(void);
+
+void disable_dac_dma_trigger(void){
+	if(htim6.State != HAL_TIM_STATE_BUSY){
+		(void)sprintf(error_msg_buf, "disable_dac_dma_trigger: Call \"enable_dac_dma_trigger\" first\r\n");
+		print_error_msg();
+
+		print_msg("Could not disable TRGO_T6 trigger because trigger not enabled\r\n");
+		return;
+	}
+
+	HAL_TIM_Base_Stop(&htim6);
+}
