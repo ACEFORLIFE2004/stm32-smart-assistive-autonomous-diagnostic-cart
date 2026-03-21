@@ -35,4 +35,8 @@ typedef enum{
 void measure_exec_time(ExecTime_RangeTypeDef exec_time_range);
 exectim_t get_exec_time(char *function_name, ExecTime_RangeTypeDef exec_time_range, ExecTime_ResolutionTypeDef exec_time_resolution);
 
+/* DMA DAC Helper Functions */
+void enable_dac_dma_trigger(uint32_t conv_freq);
+void disable_dac_dma_trigger(void);
+
 #endif /* INC_TIMER_SYSTEM_H_ */

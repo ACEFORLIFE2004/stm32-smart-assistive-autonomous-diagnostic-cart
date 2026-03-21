@@ -19,7 +19,7 @@ void request_diagnostic_state(DiagnosticSubstate_t new_diagnostic_state);
 static DiagnosticSubstate_t current_diagnostic_state;
 static fixedpt sample_buffers[4][MAX_SAMPLE_SIZE];		/* Clear and reuse during different wave gen mode */
 
-
+uint8_t diag_config_flag;
 DiagnosticConfig_t func_wave_1, func_wave_2, func_wave_3, arby_wave;
 
 void initialize_diagnostic_buffers(void){
@@ -44,5 +44,23 @@ void set_diagnostic_boot_state(void){
 }
 
 void diagnostic_update(){
-	;
+	switch(current_diagnostic_state){
+		case DIAGNOSTIC_INIT:
+			initialize_diagnostic_buffers();
+			diag_config_flag = 0;
+
+			current_diagnostic_state = DIAGNOSTIC_CONFIG;
+			request_diagnostic_state(current_diagnostic_state);
+			break;
+		case DIAGNOSTIC_CONFIG:
+			if(diag_config_flag == 1){
+				current_diagnostic_state = DIAGNOSTIC_PREPARE;
+				request_diagnostic_state(current_diagnostic_state);
+			}
+			break;
+		case DIAGNOSTIC_PREPARE:
+			break;
+		case DIAGNOSTIC_RUNNING:
+			break;
+	}
 }
