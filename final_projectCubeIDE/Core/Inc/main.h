@@ -100,6 +100,12 @@ void Error_Handler(void);
 #define STLK_RX_GPIO_Port GPIOD
 #define STLK_TX_Pin GPIO_PIN_9
 #define STLK_TX_GPIO_Port GPIOD
+#define COL1_Pin GPIO_PIN_11
+#define COL1_GPIO_Port GPIOD
+#define COL1_EXTI_IRQn EXTI15_10_IRQn
+#define COL2_Pin GPIO_PIN_12
+#define COL2_GPIO_Port GPIOD
+#define COL2_EXTI_IRQn EXTI15_10_IRQn
 #define COL3_Pin GPIO_PIN_13
 #define COL3_GPIO_Port GPIOD
 #define COL3_EXTI_IRQn EXTI15_10_IRQn

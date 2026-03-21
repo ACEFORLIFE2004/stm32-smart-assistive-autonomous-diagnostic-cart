@@ -1,0 +1,2 @@
+../Core/Src/timer_system.c:14:6:measure_exec_time	16	static
+../Core/Src/timer_system.c:35:11:get_exec_time	24	static
