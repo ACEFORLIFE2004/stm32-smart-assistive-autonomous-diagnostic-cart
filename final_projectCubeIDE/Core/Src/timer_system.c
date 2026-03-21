@@ -75,22 +75,30 @@ exectim_t get_exec_time(char *function_name, ExecTime_RangeTypeDef exec_time_ran
 }
 
 /* DMA DAC Helper Functions */
-//void enable_dac_dma_trigger(uint32_t conv_freq){
-//	if(htim6.State != HAL_TIM_STATE_READY){
-//		HAL_TIM_Base_Stop(&htim6);
-//	}
-//
-//	__HAL_TIM_SET_COUNTER(&htim6, 0x00000000);
-//
-//	__HAL_TIM_SET_PRESCALER(&htim6, exec_time_range);
-//
-//	__HAL_TIM_SET_AUTORELOAD(&htim6, 0xFFFFFFFF);
-//
-//	if(HAL_TIM_Base_Start(&htim6) != HAL_OK){
-//		(void)sprintf(error_msg_buf, "enable_dac_dma_trigger: Failed to enable TRGO_T6 trigger\r\n");
-//		print_error_msg();
-//
-//		Error_Handler();
-//	}
-//}
-//void disable_dac_dma_trigger(void);
+void enable_dac_dma_trigger(uint32_t conv_freq){
+	if(htim6.State != HAL_TIM_STATE_READY){
+		HAL_TIM_Base_Stop(&htim6);
+	}
+
+	uint16_t PSC = 0;
+	uint16_t ARR = (TIMx_CLK / (conv_freq)) - 1;
+
+	while(ARR > 0xFFFF){
+		PSC++;
+		ARR = (TIMx_CLK / ((conv_freq)*(PSC+1))) - 1;
+	}
+
+	__HAL_TIM_SET_COUNTER(&htim6, 0x00000000);
+
+	__HAL_TIM_SET_PRESCALER(&htim6, PSC);
+
+	__HAL_TIM_SET_AUTORELOAD(&htim6, ARR);
+
+	if(HAL_TIM_Base_Start(&htim6) != HAL_OK){
+		(void)sprintf(error_msg_buf, "enable_dac_dma_trigger: Failed to enable TRGO_T6 trigger\r\n");
+		print_error_msg();
+
+		Error_Handler();
+	}
+}
+void disable_dac_dma_trigger(void);

@@ -11,6 +11,8 @@
 #include "config.h"
 #include "debugger.h"
 
+#define TIMx_CLK	90000000
+
 typedef uint32_t exectim_t;
 
 extern exectim_t time_elapsed;
