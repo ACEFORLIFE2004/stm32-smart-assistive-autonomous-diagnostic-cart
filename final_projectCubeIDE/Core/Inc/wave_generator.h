@@ -12,6 +12,8 @@
 #include "sine_lut.h"
 #include "dsp.h"
 
+#define MAX_AMPLITUDE	FIXEDPT_CONST(1.65)
+
 #define MIN_SAMPLE_SIZE	720		/* Based on max frequency */
 #define MAX_SAMPLE_SIZE	2520	/* Based on best resolution of 12-bit DAC with 3.3V VREF+ */
 
@@ -96,6 +98,7 @@ void perform_operation(DiagnosticConfig_t *arg_1, DiagnosticConfig_t *arg_2, uin
 /* DMA DAC Helper Functions */
 void start_dac_conversion(uint32_t conversion_frequency);
 void stop_dac_conversion(void);
+uint16_t fxd_to_dhr(fixedpt sample_val);
 
 /* TFT LCD Helper Functions */
 
