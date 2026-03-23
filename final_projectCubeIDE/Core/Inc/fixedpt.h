@@ -43,7 +43,7 @@ typedef int fixedpt;
 #define FXD_ADD(A,B)	(A+B)
 #define FXD_SUB(A,B)	(A-B)
 #define FXD_MUL(A,B)	(((int64_t)A * (int64_t)B) >> FXD_FRAC_BITS)
-#define FXD_DIV(A,B)	((A << FXD_FRAC_BITS)/B)
+#define FXD_DIV(A,B)	(((int64_t)A << FXD_FRAC_BITS)/B)
 
 // Other useful macros such as getting just the fractional part.
 #define FXD_FRAC_MASK	(((fixedpt)1 << FXD_FRAC_BITS) - 1)

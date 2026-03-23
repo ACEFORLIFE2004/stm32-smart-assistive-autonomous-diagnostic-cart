@@ -14,7 +14,7 @@
 
 #define MAX_AMPLITUDE	FIXEDPT_CONST(1.45f)
 
-#define MIN_SAMPLE_SIZE	100		/* Arbritrary factor of max sample size */
+//#define MIN_SAMPLE_SIZE	100		/* Arbritrary factor of max sample size */
 #define MAX_SAMPLE_SIZE	200	/* Based on best resolution of 12-bit DAC with 3.3V VREF+ and RAM limitations*/
 
 #define MIN_WAVE_FREQ	2		/* Based on min conversion frequency which is 5.04kHz and max sample size */

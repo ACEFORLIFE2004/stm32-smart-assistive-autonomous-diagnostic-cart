@@ -33,29 +33,47 @@ void stream_arbitrary_wave(DiagnosticConfig_t *arby_wave){
 }
 
 uint16_t generate_sine_wave(fixedpt amplitude, uint32_t frequency, fixedpt *sample_buffer){
-	uint16_t sample_size = (frequency > 5000) ? MIN_SAMPLE_SIZE : MAX_SAMPLE_SIZE;
+	uint16_t sample_size = MAX_SAMPLE_SIZE;
 
-	if(sample_size == MAX_SAMPLE_SIZE){
-		for(uint16_t i = 0; i < sample_size; i++){
-			sample_buffer[i] = FXD_MUL( amplitude , FXD_ADD(sine_LUT_fxd[i] , FXD_FROM_FLOAT(1.2f)) );
-			dac_dhr_buf[i] 	 = fxd_to_dhr(sample_buffer[i]);
+	for(uint16_t i = 0; i < sample_size; i++){
+		sample_buffer[i] = FXD_MUL( amplitude , FXD_ADD(sine_LUT_fxd[i] , FXD_FROM_FLOAT(1.2f)) );
+		dac_dhr_buf[i] 	 = fxd_to_dhr(sample_buffer[i]);
+	}
 
-			/* Floating point sine wave generation for debugging purposes */
-//			diag_debug_buf[i] = 1.0f * (sin((i/200.0f)*M_TWOPI) + 1.0f);
-//			dac_dhr_buf[i] 	 = (uint16_t)((diag_debug_buf[i] * 4095.0f)/(2.0f * 1.65f));
+	uint32_t conv_freq = frequency*sample_size;
 
-//			if(i%24 == 0){
-//				print_msg("\r\n %u,", dac_dhr_buf[i]);
-//			}else{
-//				print_msg(" %u,", dac_dhr_buf[i]);
-//			}
+	start_dac_conversion(conv_freq, sample_size);
+
+	return sample_size;
+}
+
+uint16_t generate_square_wave(fixedpt amplitude, uint32_t frequency, fixedpt *sample_buffer){
+	uint16_t sample_size = MAX_SAMPLE_SIZE;
+
+	for(uint16_t i = 0; i < sample_size; i++){
+		fixedpt harmonics = FXD_FROM_FLOAT(0.0f);
+		uint16_t LUT_index = 0;
+
+		// Compute LUT_index for each harmonic (1, 3, ..., 2n+1) -> scale amplitudes and add to Fourier series sum
+		for(uint8_t n = 0; n<=10; n++){
+			uint32_t harmonic_index = 0;
+
+			harmonic_index = ((uint32_t)i * ((2*n)+1)) % sample_size;
+			LUT_index = (uint16_t)harmonic_index;
+
+			harmonics = FXD_ADD(
+				harmonics,
+				FXD_DIV(
+					sine_LUT_fxd[LUT_index],
+					FXD_ADD(FXD_MUL(FXD_FROM_INT(2), FXD_FROM_INT(n)), FXD_FROM_INT(1))
+				)
+			);
 		}
-//		print_msg("\r\n");
-	}else{
-		for(uint16_t i = 0, y = 0; (i < MAX_SAMPLE_SIZE) && (y < sample_size); i+=(MAX_SAMPLE_SIZE/MIN_SAMPLE_SIZE), y++){
-			sample_buffer[y] = FXD_MUL( amplitude , FXD_ADD(sine_LUT_fxd[i] , FXD_FROM_INT(1)) );
-			dac_dhr_buf[y] = fxd_to_dhr(sample_buffer[y]);
-		}
+
+		harmonics = FXD_DIV( FXD_MUL(FXD_FROM_FLOAT(3.39f) , harmonics) , FIXEDPT_PI );
+
+		sample_buffer[i] = FXD_MUL( amplitude , FXD_ADD(harmonics , FXD_FROM_FLOAT(1.2f)) );
+		dac_dhr_buf[i] 	 = fxd_to_dhr(sample_buffer[i]);
 	}
 
 	uint32_t conv_freq = frequency*sample_size;
@@ -66,14 +84,84 @@ uint16_t generate_sine_wave(fixedpt amplitude, uint32_t frequency, fixedpt *samp
 
 }
 
-uint16_t generate_square_wave(fixedpt amplitude, uint32_t frequency, fixedpt *sample_buffer){
-	return 0;
-}
 uint16_t generate_triangle_wave(fixedpt amplitude, uint32_t frequency, fixedpt *sample_buffer){
-	return 0;
+	uint16_t sample_size = MAX_SAMPLE_SIZE;
+
+	for(uint16_t i = 0; i < sample_size; i++){
+		fixedpt harmonics = FXD_FROM_FLOAT(0.0f);
+		uint16_t LUT_index = 0;
+
+		// Compute LUT_index for each harmonic (1, 3, ..., 2n+1) -> scale amplitudes and add to Fourier series sum
+		for(uint8_t n = 0; n<=10; n++){
+			uint32_t harmonic_index = 0;
+			fixedpt term = FXD_FROM_FLOAT(0.0f);
+
+			harmonic_index = ((uint32_t)i * ((2*n)+1)) % sample_size;
+			LUT_index = (uint16_t)harmonic_index;
+
+			term = 	FXD_DIV(
+							sine_LUT_fxd[LUT_index],
+							FXD_MUL(
+									FXD_ADD(FXD_MUL(FXD_FROM_INT(2), FXD_FROM_INT(n)), FXD_FROM_INT(1)),
+									FXD_ADD(FXD_MUL(FXD_FROM_INT(2), FXD_FROM_INT(n)), FXD_FROM_INT(1))
+									)
+							);
+
+			if((n % 2) == 1){
+				term = FXD_MUL(term, FXD_FROM_INT(-1));
+			}
+
+			harmonics = FXD_ADD(harmonics, term);
+		}
+
+		harmonics = FXD_DIV( FXD_MUL(FXD_FROM_INT(8) , harmonics) , FXD_MUL(FIXEDPT_PI , FIXEDPT_PI) );
+
+		sample_buffer[i] = FXD_MUL( amplitude , FXD_ADD(harmonics , FXD_FROM_FLOAT(1.2f)) );
+		dac_dhr_buf[i] 	 = fxd_to_dhr(sample_buffer[i]);
+	}
+
+	uint32_t conv_freq = frequency*sample_size;
+
+	start_dac_conversion(conv_freq, sample_size);
+
+	return sample_size;
 }
+
 uint16_t generate_sawtooth_wave(fixedpt amplitude, uint32_t frequency, fixedpt *sample_buffer){
-	return 0;
+	uint16_t sample_size = MAX_SAMPLE_SIZE;
+
+	for(uint16_t i = 0; i < sample_size; i++){
+		fixedpt harmonics = FXD_FROM_FLOAT(0.0f);
+		uint16_t LUT_index = 0;
+
+		// Compute LUT_index for each harmonic (1, 2, ..., n) -> scale amplitudes and add to Fourier series sum
+		for(uint8_t n = 1; n<=21; n++){
+			uint32_t harmonic_index = 0;
+			fixedpt term = FXD_FROM_FLOAT(0.0f);
+
+			harmonic_index = ((uint32_t)i * n) % sample_size;
+			LUT_index = (uint16_t)harmonic_index;
+
+			term = 	FXD_DIV( sine_LUT_fxd[LUT_index] , FXD_FROM_INT(n) );
+
+			if((n % 2) == 0){ /* True if n is even */
+				term = FXD_MUL(term, FXD_FROM_INT(-1));
+			}
+
+			harmonics = FXD_ADD(harmonics, term);
+		}
+
+		harmonics = FXD_DIV( FXD_MUL(FXD_FROM_FLOAT(1.77f) , harmonics) , FIXEDPT_PI );
+
+		sample_buffer[i] = FXD_MUL( amplitude , FXD_ADD(harmonics , FXD_FROM_FLOAT(1.2f)) );
+		dac_dhr_buf[i] 	 = fxd_to_dhr(sample_buffer[i]);
+	}
+
+	uint32_t conv_freq = frequency*sample_size;
+
+	start_dac_conversion(conv_freq, sample_size);
+
+	return sample_size;
 }
 
 void perform_operation(DiagnosticConfig_t *result){

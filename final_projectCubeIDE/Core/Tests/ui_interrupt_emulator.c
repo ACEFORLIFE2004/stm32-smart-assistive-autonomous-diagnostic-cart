@@ -128,9 +128,9 @@ void test_3(void){
 			project_assert(IS_DIAG_CONFIG(get_system_state()->diagnostic_state));
 
 			func_wave_1.wave_gen_mode = FUNCTION_WAVE_GEN_MODE;
-			func_wave_1.wav_function = SINUSOIDAL_FUNC;
+			func_wave_1.wav_function = SAWTOOTH_FUNC;	/* SQUARE_FUNC TRIANGLE_FUNC SAWTOOTH_FUNC */
 			func_wave_1.wav_amplitude = (FXD_FROM_FLOAT(1.45f) > MAX_AMPLITUDE) ? MAX_AMPLITUDE : FXD_FROM_FLOAT(1.45f);
-			func_wave_1.wav_frequency = (500 > MAX_WAVE_FREQ) ? MAX_WAVE_FREQ : 500;
+			func_wave_1.wav_frequency = (10000 > MAX_WAVE_FREQ) ? MAX_WAVE_FREQ : 10000;
 			func_wave_1.operation = OP_NONE;
 			func_wave_1.digital_filter = NO_FILTER;
 
