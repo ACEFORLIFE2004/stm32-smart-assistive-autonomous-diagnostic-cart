@@ -81,7 +81,7 @@ void enable_dac_dma_trigger(uint32_t conv_freq){
 	}
 
 	uint16_t PSC = 0;
-	uint16_t ARR = (TIMx_CLK / (conv_freq)) - 1;
+	uint32_t ARR = (TIMx_CLK / (conv_freq)) - 1;
 
 	while(ARR > 0xFFFF){
 		PSC++;
@@ -92,7 +92,7 @@ void enable_dac_dma_trigger(uint32_t conv_freq){
 
 	__HAL_TIM_SET_PRESCALER(&htim6, PSC);
 
-	__HAL_TIM_SET_AUTORELOAD(&htim6, ARR);
+	__HAL_TIM_SET_AUTORELOAD(&htim6, (uint16_t)ARR);
 
 	if(HAL_TIM_Base_Start(&htim6) != HAL_OK){
 		(void)sprintf(error_msg_buf, "enable_dac_dma_trigger: Failed to enable TRGO_T6 trigger\r\n");

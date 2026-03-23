@@ -45,8 +45,9 @@ void request_cart_state(AssistiveCartSubstate_t new_cart_state){
 }
 void request_diagnostic_state(DiagnosticSubstate_t new_diagnostic_state){
 	append_stack(FN_SYS_REQ_D_SSTATE_ID);
-
+	print_msg("  --> Requesting new diagnostic state\r\n");
 	system_request_state.diagnostic_state = new_diagnostic_state;
+	print_msg("  --> Request made\r\n");
 
 	pop_stack();
 }
@@ -88,6 +89,7 @@ static void system_deinit_selected_mode(void){
 		SYS_Cart_Mode_DeInit();
 		system_runtime_state.cart_state = CART_INIT;
 	}else if(deinit_flag == 0x01){
+		stop_dac_conversion();
 		SYS_Diagnostic_Mode_DeInit();
 		system_runtime_state.diagnostic_state = DIAGNOSTIC_INIT;
 	}
@@ -100,8 +102,8 @@ void set_system_boot_state(void){
 	append_stack(FN_SYS_SET_BOOT_ID);
 
 	global_state = SYS_BOOT;
-	set_cart_boot_state();
-	set_diagnostic_boot_state();
+	reset_cart_state();
+	reset_diagnostic_state();
 
 	pop_stack();
 }
@@ -169,6 +171,14 @@ void system_update(void){
 				system_deinit_selected_mode();
 				print_msg("  -> Current system mode peripherals deinitialized\r\n");
 
+				system_request_state.cart_state = CART_INIT;
+				system_request_state.diagnostic_state = DIAGNOSTIC_INIT;
+
+				system_runtime_state.cart_state = system_request_state.cart_state;
+				system_runtime_state.diagnostic_state = system_request_state.diagnostic_state;
+
+				reset_cart_state();
+				reset_diagnostic_state();
 				/* Return to Home / Main Menu */
 				print_msg("  -> Global state transitioning to IDLE ...\r\n");
 				global_state = SYS_IDLE;

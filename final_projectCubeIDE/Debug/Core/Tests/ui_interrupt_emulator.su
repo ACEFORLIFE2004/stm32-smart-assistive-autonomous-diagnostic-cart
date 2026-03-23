@@ -1,4 +1,6 @@
 ../Core/Tests/ui_interrupt_emulator.c:18:6:test_0	8	static
 ../Core/Tests/ui_interrupt_emulator.c:41:6:test_1	8	static
 ../Core/Tests/ui_interrupt_emulator.c:73:6:test_2	8	static
-../Core/Tests/ui_interrupt_emulator.c:108:6:ui_interrupt_emulator	8	static
+../Core/Tests/ui_interrupt_emulator.c:105:6:test_3	8	static
+../Core/Tests/ui_interrupt_emulator.c:189:6:test_4	8	static
+../Core/Tests/ui_interrupt_emulator.c:419:6:ui_interrupt_emulator	8	static

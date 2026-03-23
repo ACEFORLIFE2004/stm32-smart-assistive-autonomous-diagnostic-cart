@@ -19,48 +19,116 @@ void request_diagnostic_state(DiagnosticSubstate_t new_diagnostic_state);
 static DiagnosticSubstate_t current_diagnostic_state;
 static fixedpt sample_buffers[4][MAX_SAMPLE_SIZE];		/* Clear and reuse during different wave gen mode */
 
-uint8_t diag_config_flag;
-DiagnosticConfig_t func_wave_1, func_wave_2, func_wave_3, arby_wave;
+uint8_t func_wav_no;
+uint8_t diag_config_flag, diag_running_flag;
+DiagnosticConfig_t func_wave_1, func_wave_2, func_wave_3, *arby_wave;
 
 void initialize_diagnostic_buffers(void){
 	/* Each function generated wave gets their own buffer so operations can be performed between them. */
-	func_wave_1.wave_samples = sample_buffers;
-	func_wave_2.wave_samples = (sample_buffers + MAX_SAMPLE_SIZE);
-	func_wave_3.wave_samples = (sample_buffers + (2*MAX_SAMPLE_SIZE));
+	func_wave_1.wave_samples = sample_buffers[0];
+	func_wave_2.wave_samples = sample_buffers[1];
+	func_wave_3.wave_samples = sample_buffers[2];
 	/* All function generated waveforms will share the same temporary dsp buffer as DSP filters are applied independently */
-	func_wave_1.dsp_temp_buf = (sample_buffers + (3*MAX_SAMPLE_SIZE));
-	func_wave_2.dsp_temp_buf = (sample_buffers + (3*MAX_SAMPLE_SIZE));
-	func_wave_3.dsp_temp_buf = (sample_buffers + (3*MAX_SAMPLE_SIZE));
+	func_wave_1.dsp_temp_buf = sample_buffers[3];
+	func_wave_2.dsp_temp_buf = sample_buffers[3];
+	func_wave_3.dsp_temp_buf = sample_buffers[3];
 
 	/* R/W Double buffers for DMA2 @ MicroSD and DSP Double buffers DMA1 @ DAC */
-	arby_wave.rw_buffer_0	 = sample_buffers;
-	arby_wave.rw_buffer_1	 = (sample_buffers + MAX_SAMPLE_SIZE);
-	arby_wave.dsp_buf_0		 = (sample_buffers + (2*MAX_SAMPLE_SIZE));
-	arby_wave.dsp_buf_1		 = (sample_buffers + (3*MAX_SAMPLE_SIZE));
+	arby_wave->rw_buffer_0	 = sample_buffers[0];
+	arby_wave->rw_buffer_1	 = sample_buffers[1];
+	arby_wave->dsp_buf_0	 = sample_buffers[2];
+	arby_wave->dsp_buf_1	 = sample_buffers[3];
 }
 
-void set_diagnostic_boot_state(void){
+void reset_diagnostic_state(void){
 	current_diagnostic_state = DIAGNOSTIC_INIT;
 }
 
 void diagnostic_update(){
 	switch(current_diagnostic_state){
 		case DIAGNOSTIC_INIT:
+			print_msg("  --> Entering DIAGNOSTIC_INIT\r\n");
 			initialize_diagnostic_buffers();
-			diag_config_flag = 0;
+			diag_config_flag 	= 0;
+			diag_running_flag 	= 0;
+			func_wav_no 		= 1;
 
 			current_diagnostic_state = DIAGNOSTIC_CONFIG;
 			request_diagnostic_state(current_diagnostic_state);
+			print_msg("  --> Leaving DIAGNOSTIC_INIT\r\n");
 			break;
 		case DIAGNOSTIC_CONFIG:
+			print_msg("  --> Entering DIAGNOSTIC_CONFIG\r\n");
 			if(diag_config_flag == 1){
 				current_diagnostic_state = DIAGNOSTIC_PREPARE;
 				request_diagnostic_state(current_diagnostic_state);
+				print_msg("  --> Leaving DIAGNOSTIC_CONFIG\r\n");
 			}
 			break;
 		case DIAGNOSTIC_PREPARE:
+			print_msg("  --> Entering DIAGNOSTIC_PREPARE\r\n");
+			switch(func_wav_no){
+				case 1:
+					if(func_wave_1.operation == OP_NONE){
+						if(func_wave_1.wave_gen_mode == FUNCTION_WAVE_GEN_MODE){
+							stream_wave_function(&func_wave_1);
+							print_msg("Plotting Wave 1\r\n");
+						}else if(func_wave_1.wave_gen_mode == ARBITRARY_WAVE_GEN_MODE){
+							arby_wave = &func_wave_1;
+							stream_arbitrary_wave(arby_wave);
+						}
+					}else{
+						func_wave_1.arg1 = &func_wave_2;
+						func_wave_1.arg2 = &func_wave_3;
+						perform_operation(&func_wave_1);
+					}
+					break;
+				case 2:
+					if(func_wave_2.operation == OP_NONE){
+						if(func_wave_2.wave_gen_mode == FUNCTION_WAVE_GEN_MODE){
+							stream_wave_function(&func_wave_2);
+							print_msg("Plotting Wave 2\r\n");
+						}else if(func_wave_2.wave_gen_mode == ARBITRARY_WAVE_GEN_MODE){
+							arby_wave = &func_wave_2;
+							stream_arbitrary_wave(arby_wave);
+						}
+					}else{
+						func_wave_2.arg1 = &func_wave_3;
+						func_wave_2.arg2 = &func_wave_1;
+						perform_operation(&func_wave_2);
+					}
+					break;
+				case 3:
+					if(func_wave_3.operation == OP_NONE){
+						if(func_wave_3.wave_gen_mode == FUNCTION_WAVE_GEN_MODE){
+							stream_wave_function(&func_wave_3);
+							print_msg("Plotting Wave 3\r\n");
+						}else if(func_wave_3.wave_gen_mode == ARBITRARY_WAVE_GEN_MODE){
+							stream_arbitrary_wave(arby_wave);
+						}
+					}else{
+						func_wave_3.arg1 = &func_wave_1;
+						func_wave_3.arg2 = &func_wave_2;
+						perform_operation(&func_wave_3);
+					}
+					break;
+			}
+
+			current_diagnostic_state = DIAGNOSTIC_RUNNING;
+			request_diagnostic_state(current_diagnostic_state);
+			print_msg("  --> Leaving DIAGNOSTIC_PREPARE\r\n");
 			break;
 		case DIAGNOSTIC_RUNNING:
+			if(diag_config_flag != 1){	/* Preferably UI sets config_flag to 0 while in diag_running state */
+				/* User has requested to configure a different waveform */
+				func_wav_no = (func_wav_no % 3) + 1;;	/* Cycle from 1 -> 2 -> 3 then back to 1 */
+				current_diagnostic_state = DIAGNOSTIC_CONFIG;
+				request_diagnostic_state(current_diagnostic_state);
+
+				stop_dac_conversion();
+			}else{
+				diag_running_flag = 1;	/* Every iteration, UI should set this to 0 after drawing on screen */
+			}
 			break;
 	}
 }

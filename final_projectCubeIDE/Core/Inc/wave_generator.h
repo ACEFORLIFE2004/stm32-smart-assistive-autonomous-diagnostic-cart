@@ -12,21 +12,21 @@
 #include "sine_lut.h"
 #include "dsp.h"
 
-#define MAX_AMPLITUDE	FIXEDPT_CONST(1.65)
+#define MAX_AMPLITUDE	FIXEDPT_CONST(1.45f)
 
-#define MIN_SAMPLE_SIZE	720		/* Based on max frequency */
-#define MAX_SAMPLE_SIZE	2520	/* Based on best resolution of 12-bit DAC with 3.3V VREF+ */
+#define MIN_SAMPLE_SIZE	100		/* Arbritrary factor of max sample size */
+#define MAX_SAMPLE_SIZE	200	/* Based on best resolution of 12-bit DAC with 3.3V VREF+ and RAM limitations*/
 
-#define MIN_WAVE_FREQ	FIXEDPT_CONST(0)	/* Based on max sample size */
-#define MAX_WAVE_FREQ	FIXEDPT_CONST(0xffffffff)
+#define MIN_WAVE_FREQ	2		/* Based on min conversion frequency which is 5.04kHz and max sample size */
+#define MAX_WAVE_FREQ	10000	/* Based on max conversion frequency which is 1MS/s (1MHz) and min sample size */
 
 typedef struct DiagnosticConfig{
 	uint8_t wave_gen_mode;		/* This parameter can be a value of @ref wave_gen_mode */
 
 	/* Mainly for use in Function Waveform Generation Mode */
-	uint8_t wave_func;			/* This parameter can be a value of @ref wave_func */
+	uint8_t wav_function;		/* This parameter can be a value of @ref wave_func */
 	fixedpt wav_amplitude;		/* Must be between 0 - 3.3 */
-	uint32_t wav_frequency;
+	uint32_t wav_frequency;		/* Must be between MIN_WAVE_FREQ (2Hz) and MAX_WAVE_FREQ (10000Hz) */
 
 	uint8_t operation;			/* This parameter can be a value of @ref Wave_Operation */
 	struct DiagnosticConfig *arg1;
@@ -42,6 +42,7 @@ typedef struct DiagnosticConfig{
 
 	/* Applies to both (all) waveform generation modes */
 	uint8_t digital_filter;		/* This parameter can be a value of @ref DSP_Filter */
+	uint16_t sample_size;
 
 	uint8_t screen_output;		/* This parameter can be a value of @ref Screen_Output */
 }DiagnosticConfig_t;
@@ -82,21 +83,22 @@ typedef struct DiagnosticConfig{
   */
 #define	WAVE_DISPLAY	(0x00U)
 #define FFT_DISPLAY		(0x01U)
-#define	DEFAULT_DISPLAY	(0x00U)
+#define	DEFAULT_DISPLAY	WAVE_DISPLAY
 
 
-void generate_wave_function(DiagnosticConfig_t *func_wave);
+void stream_wave_function(DiagnosticConfig_t *func_wave);
 void stream_arbitrary_wave(DiagnosticConfig_t *arby_wave);
 
-void generate_sine_wave(fixedpt amplitude, uint32_t frequency, fixedpt *sample_buffer);
-void generate_square_wave(fixedpt amplitude, uint32_t frequency, fixedpt *sample_buffer);
-void generate_triangle_wave(fixedpt amplitude, uint32_t frequency, fixedpt *sample_buffer);
-void generate_sawtooth_wave(fixedpt amplitude, uint32_t frequency, fixedpt *sample_buffer);
+/* Returns the actual sample size used which depends on user's wave frequency selection */
+uint16_t generate_sine_wave(fixedpt amplitude, uint32_t frequency, fixedpt *sample_buffer);
+uint16_t generate_square_wave(fixedpt amplitude, uint32_t frequency, fixedpt *sample_buffer);
+uint16_t generate_triangle_wave(fixedpt amplitude, uint32_t frequency, fixedpt *sample_buffer);
+uint16_t generate_sawtooth_wave(fixedpt amplitude, uint32_t frequency, fixedpt *sample_buffer);
 
-void perform_operation(DiagnosticConfig_t *arg_1, DiagnosticConfig_t *arg_2, uint8_t operation, fixedpt *result_arg);
+void perform_operation(DiagnosticConfig_t *result);
 
 /* DMA DAC Helper Functions */
-void start_dac_conversion(uint32_t conversion_frequency);
+void start_dac_conversion(uint32_t conversion_frequency, uint16_t sample_size);
 void stop_dac_conversion(void);
 uint16_t fxd_to_dhr(fixedpt sample_val);
 

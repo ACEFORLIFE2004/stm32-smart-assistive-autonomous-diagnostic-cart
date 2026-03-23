@@ -18,6 +18,6 @@ typedef enum{
 
 void cart_update(void);
 
-void set_cart_boot_state(void);
+void reset_cart_state(void);
 
 #endif /* INC_ASSISTIVE_CART_LOGIC_H_ */

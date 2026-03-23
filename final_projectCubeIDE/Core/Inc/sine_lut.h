@@ -10,7 +10,7 @@
 
 #include "fixedpt.h"
 
-#define SINE_LUT_SIZE	2520
+#define SINE_LUT_SIZE	200
 
 extern const fixedpt sine_LUT_fxd[SINE_LUT_SIZE];
 

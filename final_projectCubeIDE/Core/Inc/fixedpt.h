@@ -12,7 +12,7 @@
 
 // Change these values to set the fixed point format. Currently Q3.28 format
 #define FXD_TOTAL_BITS  32
-#define FXD_FRAC_BITS	24
+#define FXD_FRAC_BITS	16
 
 #if FXD_FRAC_BITS >= FXD_TOTAL_BITS
 #error "FIXEDPT_WBITS must be less than or equal to FIXEDPT_BITS"

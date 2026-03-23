@@ -36,9 +36,20 @@ extern emulcnt_t event_seq_num;
 #define IS_DIAGNOSTIC_MODE(__MODE__)		(__MODE__ == 0x02)
 
 
+#define IS_DIAG_INIT(__STATE__)				(__STATE__ == 0x00)
+
+#define IS_DIAG_CONFIG(__STATE__)			(__STATE__ == 0x01)
+
+#define IS_DIAG_PREP(__STATE__)				(__STATE__ == 0x02)
+
+#define IS_DIAG_RUN(__STATE__)				(__STATE__ == 0x03)
+
+
 void test_0(void);
 void test_1(void);
 void test_2(void);
+void test_3(void);
+void test_4(void);
 
 void ui_interrupt_emulator(void);
 

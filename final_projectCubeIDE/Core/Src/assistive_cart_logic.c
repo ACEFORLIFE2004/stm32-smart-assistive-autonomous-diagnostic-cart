@@ -18,7 +18,7 @@ void request_cart_state(AssistiveCartSubstate_t new_cart_state);
 /* Private variables ---------------------------------------------------------*/
 static AssistiveCartSubstate_t current_cart_state;
 
-void set_cart_boot_state(void){
+void reset_cart_state(void){
 	current_cart_state = CART_INIT;
 }
 

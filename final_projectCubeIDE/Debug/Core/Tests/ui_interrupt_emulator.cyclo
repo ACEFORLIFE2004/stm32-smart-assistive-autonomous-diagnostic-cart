@@ -1,4 +1,6 @@
 ../Core/Tests/ui_interrupt_emulator.c:18:6:test_0	9
 ../Core/Tests/ui_interrupt_emulator.c:41:6:test_1	15
 ../Core/Tests/ui_interrupt_emulator.c:73:6:test_2	15
-../Core/Tests/ui_interrupt_emulator.c:108:6:ui_interrupt_emulator	5
+../Core/Tests/ui_interrupt_emulator.c:105:6:test_3	32
+../Core/Tests/ui_interrupt_emulator.c:189:6:test_4	119
+../Core/Tests/ui_interrupt_emulator.c:419:6:ui_interrupt_emulator	7
