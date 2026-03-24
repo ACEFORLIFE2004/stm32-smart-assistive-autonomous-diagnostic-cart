@@ -1,8 +1,0 @@
-../Core/Src/tft_lcd.c:11:6:LCD_WriteCommand	16	static
-../Core/Src/tft_lcd.c:19:6:LCD_WriteData	16	static
-../Core/Src/tft_lcd.c:26:6:LCD_Init	8	static
-../Core/Src/tft_lcd.c:42:6:LCD_SetAddressWindow	24	static
-../Core/Src/tft_lcd.c:56:6:LCD_DrawRect	32	static
-../Core/Src/tft_lcd.c:71:6:LCD_DrawChar	40	static
-../Core/Src/tft_lcd.c:103:6:LCD_WriteString	32	static
-../Core/Src/tft_lcd.c:114:6:LCD_DrawSigMain	24	static

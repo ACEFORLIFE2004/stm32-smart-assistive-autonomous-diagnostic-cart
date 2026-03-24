@@ -1,8 +1,0 @@
-../Core/Src/timer_system.c:14:6:measure_exec_time	3
-../Core/Src/timer_system.c:35:11:get_exec_time	8
-<<<<<<< Updated upstream
-../Core/Src/timer_system.c:78:6:enable_dac_dma_trigger	4
-../Core/Src/timer_system.c:105:6:disable_dac_dma_trigger	2
-=======
-../Core/Src/timer_system.c:78:6:enable_dac_dma_trigger	3
->>>>>>> Stashed changes

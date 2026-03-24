@@ -27,4 +27,8 @@ void LCD_WriteString(uint16_t x, uint16_t y, const char* str, FontDef_t font, ui
 
 void LCD_DrawSigMain();
 
+void LCD_DrawModeSelect();
+
+void LCD_DrawSigInput();
+
 #endif /* INC_TFT_LCD_H_ */

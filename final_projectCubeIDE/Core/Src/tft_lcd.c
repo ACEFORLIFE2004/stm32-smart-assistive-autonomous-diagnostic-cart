@@ -111,6 +111,23 @@ void LCD_WriteString(uint16_t x, uint16_t y, const char* str, FontDef_t font, ui
     }
 }
 
+void LCD_DrawModeSelect() {
+
+	LCD_DrawRect(0, 0, 320, 240, 0x0000);
+
+	LCD_WriteString(5, 90, "1: Select Cart Mode", Font_11x18, 0xFFFF, 0x0000);
+	LCD_WriteString(5, 130, "2: Select Signal Generation Mode", Font_11x18, 0xFFFF, 0x0000);
+
+}
+
+void LCD_DrawCartMain() { /* TO DO: CHECK IT OUT AND PLACE CORRECTLY */
+
+	LCD_DrawRect(0, 0, 320, 240, 0x0000);
+
+	LCD_WriteString(105, 105, "Cart Mode", Font_11x18, 0xFFFF, 0x0000);
+
+}
+
 void LCD_DrawSigMain() {
 
 	LCD_DrawRect(0, 0, 320, 240, 0x0000);
@@ -120,4 +137,14 @@ void LCD_DrawSigMain() {
 	LCD_WriteString(5, 180, "1: Select Arbitrary Waveform", Font_11x18, 0xFFFF, 0x0000);
 	LCD_WriteString(5, 200, "2: Input a Waveform", Font_11x18, 0xFFFF, 0x0000);
 }
+
+void LCD_DrawSigInput() {
+
+	LCD_DrawRect(0, 0, 320, 240, 0x0000);
+
+	// Placeholder
+	LCD_WriteString(50, 105, "Waveform Input Screen", Font_11x18, 0xFFFF, 0x0000);
+
+}
+
 
