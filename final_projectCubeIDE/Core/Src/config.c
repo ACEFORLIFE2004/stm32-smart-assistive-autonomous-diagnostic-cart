@@ -694,7 +694,7 @@ void MX_GPIO_Init(void)
   /*Configure GPIO pins : COL1_Pin COL2_Pin COL3_Pin SENSOR_ECHO_Pin */
   GPIO_InitStruct.Pin = COL1_Pin|COL2_Pin|COL3_Pin|SENSOR_ECHO_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /*Configure GPIO pin : TFT_LCD_DC_Pin */
@@ -711,10 +711,10 @@ void MX_GPIO_Init(void)
   HAL_GPIO_Init(CTPM_IRQ_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : IR_RX_LEFT_Pin IR_RX_CENTER_Pin IR_RX_RIGHT_Pin */
-  GPIO_InitStruct.Pin = IR_RX_LEFT_Pin|IR_RX_CENTER_Pin|IR_RX_RIGHT_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+//  GPIO_InitStruct.Pin = IR_RX_LEFT_Pin|IR_RX_CENTER_Pin|IR_RX_RIGHT_Pin;
+//  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+//  GPIO_InitStruct.Pull = GPIO_NOPULL;
+//  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pins : SENSOR_TRIG_RIGHT_Pin SENSOR_TRIG_CENTER_Pin SENSOR_TRIG_LEFT_Pin */
   GPIO_InitStruct.Pin = SENSOR_TRIG_RIGHT_Pin|SENSOR_TRIG_CENTER_Pin|SENSOR_TRIG_LEFT_Pin;

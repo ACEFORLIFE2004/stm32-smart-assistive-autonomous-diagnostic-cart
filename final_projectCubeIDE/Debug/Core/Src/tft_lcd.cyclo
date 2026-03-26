@@ -1,0 +1,11 @@
+../Core/Src/tft_lcd.c:11:6:LCD_WriteCommand	1
+../Core/Src/tft_lcd.c:19:6:LCD_WriteData	1
+../Core/Src/tft_lcd.c:26:6:LCD_Init	1
+../Core/Src/tft_lcd.c:42:6:LCD_SetAddressWindow	1
+../Core/Src/tft_lcd.c:56:6:LCD_DrawRect	2
+../Core/Src/tft_lcd.c:71:6:LCD_DrawChar	4
+../Core/Src/tft_lcd.c:103:6:LCD_WriteString	3
+../Core/Src/tft_lcd.c:114:6:LCD_DrawModeSelect	1
+../Core/Src/tft_lcd.c:123:6:LCD_DrawCartMain	1
+../Core/Src/tft_lcd.c:131:6:LCD_DrawSigMain	1
+../Core/Src/tft_lcd.c:141:6:LCD_DrawSigInput	1

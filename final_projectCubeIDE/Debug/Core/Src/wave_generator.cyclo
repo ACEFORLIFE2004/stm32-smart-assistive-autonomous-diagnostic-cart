@@ -1,0 +1,10 @@
+../Core/Src/wave_generator.c:14:6:stream_wave_function	5
+../Core/Src/wave_generator.c:31:6:stream_arbitrary_wave	1
+../Core/Src/wave_generator.c:35:10:generate_sine_wave	2
+../Core/Src/wave_generator.c:50:10:generate_square_wave	3
+../Core/Src/wave_generator.c:87:10:generate_triangle_wave	4
+../Core/Src/wave_generator.c:130:10:generate_sawtooth_wave	4
+../Core/Src/wave_generator.c:167:6:perform_operation	1
+../Core/Src/wave_generator.c:177:6:start_dac_conversion	2
+../Core/Src/wave_generator.c:191:6:stop_dac_conversion	1
+../Core/Src/wave_generator.c:197:10:fxd_to_dhr	1

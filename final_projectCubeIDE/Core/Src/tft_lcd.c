@@ -134,8 +134,8 @@ void LCD_DrawSigMain() {
 
 	LCD_DrawRect(5, 5, 310, 160, 0x7BEF);
 
-	LCD_WriteString(5, 180, "1: Select Arbitrary Waveform", Font_11x18, 0xFFFF, 0x0000);
-	LCD_WriteString(5, 200, "2: Input a Waveform", Font_11x18, 0xFFFF, 0x0000);
+	LCD_WriteString(5, 180, "3: Select Arbitrary Waveform", Font_11x18, 0xFFFF, 0x0000);
+	LCD_WriteString(5, 200, "4: Input a Waveform", Font_11x18, 0xFFFF, 0x0000);
 }
 
 void LCD_DrawSigInput() {
