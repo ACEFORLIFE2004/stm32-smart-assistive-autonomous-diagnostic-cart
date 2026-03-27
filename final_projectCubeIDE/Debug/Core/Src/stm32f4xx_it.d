@@ -35,7 +35,13 @@ Core/Src/stm32f4xx_it.o: ../Core/Src/stm32f4xx_it.c ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/Inc/stm32f4xx_it.h
+ ../Core/Inc/stm32f4xx_it.h ../Core/Inc/keypad.h ../Core/Inc/main.h \
+ ../Core/Inc/ui_handler.h ../Core/Inc/system.h ../Core/Inc/project.h \
+ ../Core/Inc/config.h ../Core/Inc/debugger.h ../Core/Inc/timer_system.h \
+ ../Core/Inc/diagnostic_handler.h ../Core/Inc/wave_generator.h \
+ ../Core/Inc/sine_lut.h ../Core/Inc/fixedpt.h ../Core/Inc/dsp.h \
+ ../Core/Inc/assistive_cart_logic.h ../Core/Inc/tft_lcd.h \
+ ../Core/Inc/fonts.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -74,3 +80,19 @@ Core/Src/stm32f4xx_it.o: ../Core/Src/stm32f4xx_it.c ../Core/Inc/main.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/Inc/stm32f4xx_it.h:
+../Core/Inc/keypad.h:
+../Core/Inc/main.h:
+../Core/Inc/ui_handler.h:
+../Core/Inc/system.h:
+../Core/Inc/project.h:
+../Core/Inc/config.h:
+../Core/Inc/debugger.h:
+../Core/Inc/timer_system.h:
+../Core/Inc/diagnostic_handler.h:
+../Core/Inc/wave_generator.h:
+../Core/Inc/sine_lut.h:
+../Core/Inc/fixedpt.h:
+../Core/Inc/dsp.h:
+../Core/Inc/assistive_cart_logic.h:
+../Core/Inc/tft_lcd.h:
+../Core/Inc/fonts.h:

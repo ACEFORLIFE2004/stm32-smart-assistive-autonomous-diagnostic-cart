@@ -20,6 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f4xx_it.h"
+#include "keypad.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
@@ -31,6 +32,11 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
+extern volatile uint8_t key_pressed;
+extern volatile uint8_t current_row;
+extern volatile uint8_t current_col;
+extern volatile uint8_t pressed_row;
 
 /* USER CODE END PD */
 
@@ -266,13 +272,37 @@ void EXTI15_10_IRQHandler(void)
   /* USER CODE BEGIN EXTI15_10_IRQn 0 */
 
   /* USER CODE END EXTI15_10_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(IR_RX_LEFT_Pin);
-  HAL_GPIO_EXTI_IRQHandler(IR_RX_CENTER_Pin);
-  HAL_GPIO_EXTI_IRQHandler(IR_RX_RIGHT_Pin);
+//  HAL_GPIO_EXTI_IRQHandler(IR_RX_LEFT_Pin);
+//  HAL_GPIO_EXTI_IRQHandler(IR_RX_CENTER_Pin);
+//  HAL_GPIO_EXTI_IRQHandler(IR_RX_RIGHT_Pin);
 
-  HAL_GPIO_EXTI_IRQHandler(COL1_Pin);
-  HAL_GPIO_EXTI_IRQHandler(COL2_Pin);
-  HAL_GPIO_EXTI_IRQHandler(COL3_Pin);
+	if(__HAL_GPIO_EXTI_GET_IT(COL1_Pin) != RESET)
+	  {
+	      current_col = 0;
+	      pressed_row = current_row;
+	      key_pressed = 1;
+	      __HAL_GPIO_EXTI_CLEAR_IT(COL1_Pin); // Clear the interrupt flag
+	  }
+	  /* Check Column 2 (Pin 12) */
+	  else if(__HAL_GPIO_EXTI_GET_IT(COL2_Pin) != RESET)
+	  {
+	      current_col = 1;
+	      pressed_row = current_row;
+	      key_pressed = 1;
+	      __HAL_GPIO_EXTI_CLEAR_IT(COL2_Pin);
+	  }
+	  /* Check Column 3 (Pin 13) */
+	  else if(__HAL_GPIO_EXTI_GET_IT(COL3_Pin) != RESET)
+	  {
+	      current_col = 2;
+	      pressed_row = current_row;
+	      key_pressed = 1;
+	      __HAL_GPIO_EXTI_CLEAR_IT(COL3_Pin);
+	  }
+
+//  HAL_GPIO_EXTI_IRQHandler(COL1_Pin);
+//  HAL_GPIO_EXTI_IRQHandler(COL2_Pin);
+//  HAL_GPIO_EXTI_IRQHandler(COL3_Pin);
   /* USER CODE BEGIN EXTI15_10_IRQn 1 */
 
   /* USER CODE END EXTI15_10_IRQn 1 */

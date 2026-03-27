@@ -13,6 +13,8 @@
 #include "assistive_cart_logic.h"
 #include "tft_lcd.h"
 
+void LCD_UpdateFuncValues();
+
 void ui_update(void);
 
 void handle_keypad_input(char key);

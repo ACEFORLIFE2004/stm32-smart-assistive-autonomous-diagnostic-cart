@@ -1,2 +1,1 @@
 ../Core/Src/keypad.c:22:6:keypad_update	16	static
-../Core/Src/keypad.c:58:6:HAL_GPIO_EXTI_Callback	16	static

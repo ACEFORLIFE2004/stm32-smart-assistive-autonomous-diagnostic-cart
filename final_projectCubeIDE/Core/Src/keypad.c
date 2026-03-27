@@ -54,23 +54,3 @@ void keypad_update(void) {
         key_pressed = 0;
     }
 }
-
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-
-    if (GPIO_Pin == COL1_Pin) {
-        current_col = 0;
-        pressed_row = current_row;
-        key_pressed = 1;
-    }
-    else if (GPIO_Pin == COL2_Pin) {
-        current_col = 1;
-        pressed_row = current_row;
-        key_pressed = 1;
-    }
-    else if (GPIO_Pin == COL3_Pin) {
-        current_col = 2;
-        pressed_row = current_row;
-        key_pressed = 1;
-    }
-
-}
