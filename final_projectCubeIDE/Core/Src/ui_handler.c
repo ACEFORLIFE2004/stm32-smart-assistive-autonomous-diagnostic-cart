@@ -5,18 +5,20 @@
  *      Author: akhan
  */
 
-#include <stdio.h>
+//#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+//#include <string.h>
+//#include "project.h"
+//#include "system.h"
 #include "ui_handler.h"
-#include "fixedpt.h"
-#include "wave_generator.h"
-#include "tft_lcd.h"
+//#include "fixedpt.h"
+//#include "diagnostic_handler.h"
+//#include "tft_lcd.h"
 
-SystemEnv_t* get_system_state(void);
-GlobalState_t get_global_state(void);
+//SystemEnv_t* get_system_state(void);
+//GlobalState_t get_global_state(void);
 
-extern DiagnosticConfig_t func_wave_1;
+//extern DiagnosticConfig_t func_wave_1, func_wave_2, func_wave_3;
 
 static uint8_t selection_made = 0;
 static uint8_t edit_line = 0;       // Matches the logic below
@@ -168,6 +170,9 @@ void ui_update(void) {
 
         }
     }
+
+    /* Handle any keypad inputs and make requests to system where necessary/valid */
+	keypad_update();
 }
 
 void handle_keypad_input(char key) {

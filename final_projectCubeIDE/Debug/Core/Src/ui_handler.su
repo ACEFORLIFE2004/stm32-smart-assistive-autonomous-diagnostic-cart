@@ -1,0 +1,4 @@
+../Core/Src/ui_handler.c:34:6:LCD_UpdateFuncValues	120	static
+../Core/Src/ui_handler.c:98:6:LCD_UpdateArbValues	72	static
+../Core/Src/ui_handler.c:125:6:ui_update	16	static
+../Core/Src/ui_handler.c:173:6:handle_keypad_input	40	static

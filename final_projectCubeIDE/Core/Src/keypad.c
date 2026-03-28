@@ -5,7 +5,10 @@
  *      Author: akhan
  */
 
-#include "keypad.h"
+#include "keypad.h";
+
+/* Import from ui_handler.c/.h via forward declaration */
+void handle_keypad_input(char key);
 
 volatile int8_t current_row = -1;
 volatile int8_t key_pressed = 0;

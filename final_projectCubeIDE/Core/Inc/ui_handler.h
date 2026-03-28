@@ -9,8 +9,9 @@
 #define INC_UI_HANDLER_H_
 
 #include "system.h"
-#include "diagnostic_handler.h"
-#include "assistive_cart_logic.h"
+//#include "diagnostic_handler.h"
+//#include "assistive_cart_logic.h"
+#include "keypad.h"
 #include "tft_lcd.h"
 
 void LCD_UpdateFuncValues();

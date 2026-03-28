@@ -1,0 +1,10 @@
+../Core/Src/system.c:22:14:get_system_state	1
+../Core/Src/system.c:27:15:get_global_state	1
+../Core/Src/system.c:32:6:request_system_mode	1
+../Core/Src/system.c:39:6:request_cart_state	1
+../Core/Src/system.c:46:6:request_diagnostic_state	1
+../Core/Src/system.c:56:13:system_init_core_peripherals	1
+../Core/Src/system.c:64:13:system_init_selected_mode	3
+../Core/Src/system.c:84:13:system_deinit_selected_mode	3
+../Core/Src/system.c:101:6:set_system_boot_state	1
+../Core/Src/system.c:111:6:system_update	9

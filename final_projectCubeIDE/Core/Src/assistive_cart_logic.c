@@ -23,5 +23,5 @@ void reset_cart_state(void){
 }
 
 void cart_update(){
-	HAL_Delay(1);
+	;
 }
