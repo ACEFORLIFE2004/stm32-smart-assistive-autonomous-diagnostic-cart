@@ -1,3 +1,0 @@
-../Core/Src/diagnostic_handler.c:26:6:initialize_diagnostic_buffers	1
-../Core/Src/diagnostic_handler.c:43:6:reset_diagnostic_state	1
-../Core/Src/diagnostic_handler.c:47:6:diagnostic_update	20
