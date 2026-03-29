@@ -22,8 +22,16 @@ void drive_forward(uint8_t speed){
 	motor_set_duty(speed, RIGHT_MOTOR, FORWARD_DIR);
 }
 
-void turn_right(uint8_t speed);
-void turn_left(uint8_t speed);
+void turn_right(uint8_t speed) {
+    // To arc right, the left motor pushes harder than the right
+    motor_set_duty(speed, LEFT_MOTOR, FORWARD_DIR);
+    motor_set_duty(speed / 2, RIGHT_MOTOR, FORWARD_DIR); // Half speed on inside wheel
+}
+
+void turn_left(uint8_t speed) {
+    motor_set_duty(speed / 2, LEFT_MOTOR, FORWARD_DIR);
+    motor_set_duty(speed, RIGHT_MOTOR, FORWARD_DIR);
+}
 
 void forward_spin_right(uint16_t angle);
 void forward_spin_left(uint16_t angle);

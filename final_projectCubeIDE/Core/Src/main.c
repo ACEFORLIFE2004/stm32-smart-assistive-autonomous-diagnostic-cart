@@ -134,11 +134,11 @@ int main(void)
 
 	/* UI UPDATE */
 //	measure_exec_time(DEFAULT_RANGE);									/* Start Test */
-//	ui_update();
+	ui_update();
 //	(void)get_exec_time("system_update", DEFAULT_RANGE, NANO_SECONDS);	/* End Test */
 
 	/* TEST: UI EMULATOR */
-	run_project_test();
+//	run_project_test();
 
     /* USER CODE BEGIN 3 */
   }

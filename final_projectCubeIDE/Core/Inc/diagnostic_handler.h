@@ -23,6 +23,8 @@ typedef enum{
 	DIAGNOSTIC_RUNNING 	= 3U
 }DiagnosticSubstate_t;
 
+#define GET_MAX_BUFFER_SIZE( SIZE1 , SIZE2 )    (SIZE1 > SIZE2) ? SIZE1 : SIZE2
+
 void diagnostic_update(void);
 void initialize_diagnostic_buffers(void);
 void reset_diagnostic_state(void);

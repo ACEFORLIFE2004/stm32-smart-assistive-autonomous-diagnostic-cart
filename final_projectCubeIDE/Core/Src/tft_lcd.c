@@ -144,30 +144,59 @@ void LCD_DrawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t c
 }
 
 void LCD_DrawModeSelect() {
+    // Clear Screen
+    LCD_DrawRect(0, 0, 320, 240, 0x0000);
 
-	LCD_DrawRect(0, 0, 320, 240, 0x0000);
+    // Header with double-line underline
+    LCD_WriteString(60, 20, "SYSTEM MAIN MENU", Font_11x18, 0x07E0, 0x0000);
+    LCD_DrawRect(50, 42, 220, 2, 0xFFFF);
+    LCD_DrawRect(50, 46, 220, 1, 0xFFFF);
 
-	LCD_WriteString(5, 90, "1: Select Cart Mode", Font_11x18, 0xFFFF, 0x0000);
-	LCD_WriteString(5, 130, "2: Select Signal Generation Mode", Font_11x18, 0xFFFF, 0x0000);
+    // Option 1 Box
+//    LCD_DrawRect(15, 70, 290, 60, 0xFFFF); // White Border
+    LCD_WriteString(35, 92, "1: CART CONTROL", Font_11x18, 0xFFFF, 0x0000);
 
+    // Option 2 Box
+//    LCD_DrawRect(15, 145, 290, 60, 0xFFFF); // White Border
+    LCD_WriteString(35, 167, "2: SIGNAL GENERATOR", Font_11x18, 0xFFFF, 0x0000);
 }
 
 void LCD_DrawCartMain() {
+    LCD_DrawRect(0, 0, 320, 240, 0x0000);
 
-	LCD_DrawRect(0, 0, 320, 240, 0x0000);
+    // Sidebar Indicator
+    LCD_DrawRect(0, 0, 10, 240, 0x07E0); // Green side-strip for "Active"
 
-	LCD_WriteString(105, 105, "Cart Mode", Font_11x18, 0xFFFF, 0x0000);
+    // Title
+    LCD_WriteString(25, 20, "SMART UTILITY CART", Font_11x18, 0xFFFF, 0x0000);
+    LCD_DrawRect(25, 42, 270, 2, 0x7BEF);
 
+    // Status Rows
+    LCD_WriteString(25, 80, "STATUS: ", Font_11x18, 0xFFFF, 0x0000);
+    LCD_WriteString(120, 80, "STANDBY", Font_11x18, 0x07E0, 0x0000);
+
+    LCD_WriteString(25, 120, "SPEED:  ", Font_11x18, 0xFFFF, 0x0000);
+    LCD_WriteString(120, 120, "0.0 m/s", Font_11x18, 0xFFFF, 0x0000);
+
+    // Footer
+    LCD_DrawRect(0, 210, 320, 30, 0x3186); // Gray footer bar
+    LCD_WriteString(45, 216, "PRESS [#] TO EXIT", Font_11x18, 0xFFFF, 0x3186);
 }
 
 void LCD_DrawSigMain() {
+    LCD_DrawRect(0, 0, 320, 240, 0x0000);
 
-	LCD_DrawRect(0, 0, 320, 240, 0x0000);
+    // Waveform Viewport (Top Box)
+    LCD_DrawRect(5, 5, 310, 140, 0x7BEF); // Gray border for the grid
+    LCD_WriteString(85, 65, "[WAVEFORM]", Font_11x18, 0x7BEF, 0x0000); // Placeholder
 
-	LCD_DrawRect(5, 5, 310, 160, 0x7BEF);
+    // Control Label
+    LCD_DrawRect(0, 150, 320, 2, 0xFFFF);
+    LCD_WriteString(20, 160, "SELECT INPUT TYPE:", Font_11x18, 0x07E0, 0x0000);
 
-	LCD_WriteString(5, 180, "3: Input a Waveform", Font_11x18, 0xFFFF, 0x0000);
-	LCD_WriteString(5, 200, "4: Select Arbitrary Waveform", Font_11x18, 0xFFFF, 0x0000);
+    // Menu Options
+    LCD_WriteString(20, 190, "3: MANUAL INPUT", Font_11x18, 0xFFFF, 0x0000);
+    LCD_WriteString(20, 215, "4: PRESET WAVES", Font_11x18, 0xFFFF, 0x0000);
 }
 
 void LCD_DrawArbInput() {

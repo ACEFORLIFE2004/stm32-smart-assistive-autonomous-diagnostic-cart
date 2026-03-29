@@ -1,4 +1,4 @@
-Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
+Core/Src/bluetooth.o: ../Core/Src/bluetooth.c ../Core/Inc/bluetooth.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -35,23 +35,10 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../FATFS/App/fatfs.h ../Middlewares/Third_Party/FatFs/src/ff.h \
- ../Middlewares/Third_Party/FatFs/src/integer.h ../FATFS/Target/ffconf.h \
- ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h \
- ../Middlewares/Third_Party/FatFs/src/diskio.h \
- ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/user_diskio.h \
- ../Core/Inc/project.h ../Core/Inc/config.h ../Core/Inc/main.h \
- ../Core/Inc/debugger.h ../Core/Inc/timer_system.h ../Core/Inc/system.h \
- ../Core/Inc/project.h ../Core/Inc/diagnostic_handler.h \
- ../Core/Inc/wave_generator.h ../Core/Inc/sine_lut.h \
- ../Core/Inc/fixedpt.h ../Core/Inc/dsp.h \
- ../Core/Inc/assistive_cart_logic.h ../Core/Inc/motor_driver.h \
- ../Core/Inc/ui_handler.h ../Core/Inc/system.h ../Core/Inc/keypad.h \
- ../Core/Inc/tft_lcd.h ../Core/Inc/fonts.h \
- ../Core/Src/../Tests/test_project.h \
- ../Core/Src/../Tests/ui_interrupt_emulator.h \
- ../Core/Src/../Tests/project_assert.h
-../Core/Inc/main.h:
+ ../Core/Inc/motor_driver.h ../Core/Inc/project.h ../Core/Inc/config.h \
+ ../Core/Inc/main.h ../Core/Inc/debugger.h ../Core/Inc/timer_system.h \
+ ../Core/Inc/motor_driver.h
+../Core/Inc/bluetooth.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:
@@ -88,33 +75,10 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-../FATFS/App/fatfs.h:
-../Middlewares/Third_Party/FatFs/src/ff.h:
-../Middlewares/Third_Party/FatFs/src/integer.h:
-../FATFS/Target/ffconf.h:
-../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h:
-../Middlewares/Third_Party/FatFs/src/diskio.h:
-../Middlewares/Third_Party/FatFs/src/ff.h:
-../FATFS/Target/user_diskio.h:
+../Core/Inc/motor_driver.h:
 ../Core/Inc/project.h:
 ../Core/Inc/config.h:
 ../Core/Inc/main.h:
 ../Core/Inc/debugger.h:
 ../Core/Inc/timer_system.h:
-../Core/Inc/system.h:
-../Core/Inc/project.h:
-../Core/Inc/diagnostic_handler.h:
-../Core/Inc/wave_generator.h:
-../Core/Inc/sine_lut.h:
-../Core/Inc/fixedpt.h:
-../Core/Inc/dsp.h:
-../Core/Inc/assistive_cart_logic.h:
 ../Core/Inc/motor_driver.h:
-../Core/Inc/ui_handler.h:
-../Core/Inc/system.h:
-../Core/Inc/keypad.h:
-../Core/Inc/tft_lcd.h:
-../Core/Inc/fonts.h:
-../Core/Src/../Tests/test_project.h:
-../Core/Src/../Tests/ui_interrupt_emulator.h:
-../Core/Src/../Tests/project_assert.h:

@@ -1,0 +1,4 @@
+../Core/Src/bluetooth.c:11:6:BT_Init	8	static
+../Core/Src/bluetooth.c:15:6:BT_Update_Physics	4	static
+../Core/Src/bluetooth.c:29:6:BT_Process_Packet	24	static
+../Core/Src/bluetooth.c:44:6:HAL_UART_RxCpltCallback	16	static

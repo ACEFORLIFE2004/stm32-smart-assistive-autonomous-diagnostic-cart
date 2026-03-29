@@ -151,6 +151,7 @@ void motor_set_frequency(uint16_t frequency){
 	}
 
 	__HAL_TIM_SET_PRESCALER(&htim2, PSC);
+
 	__HAL_TIM_SET_PRESCALER(&htim11, PSC);
 	__HAL_TIM_SET_PRESCALER(&htim14, PSC);
 

@@ -1,4 +1,5 @@
 "./Core/Src/assistive_cart_logic.o"
+"./Core/Src/bluetooth.o"
 "./Core/Src/config.o"
 "./Core/Src/debugger.o"
 "./Core/Src/diagnostic_handler.o"
