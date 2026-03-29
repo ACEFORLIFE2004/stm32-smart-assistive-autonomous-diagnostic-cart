@@ -126,12 +126,20 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+
+	/* SYSTEM UPDATE */
 //	measure_exec_time(DEFAULT_RANGE);									/* Start Test */
 	system_update();
 //	(void)get_exec_time("system_update", DEFAULT_RANGE, NANO_SECONDS);	/* End Test */
+
+	/* UI UPDATE */
+//	measure_exec_time(DEFAULT_RANGE);									/* Start Test */
+//	ui_update();
+//	(void)get_exec_time("system_update", DEFAULT_RANGE, NANO_SECONDS);	/* End Test */
+
+	/* TEST: UI EMULATOR */
 	run_project_test();
 
-//	HAL_Delay(10);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

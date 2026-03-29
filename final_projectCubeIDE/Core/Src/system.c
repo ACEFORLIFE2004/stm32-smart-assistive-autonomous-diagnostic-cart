@@ -6,6 +6,7 @@
  */
 
 #include "system.h"
+#include "tft_lcd.h"
 #include "fatfs.h"
 
 /* Private variables ---------------------------------------------------------*/
@@ -57,6 +58,7 @@ static void system_init_core_peripherals(void){
 	append_stack(FN_SYS_INIT_CORE_ID);
 
 	SYS_Core_Peripheral_Init();
+	LCD_Init();
 
 	pop_stack();
 }

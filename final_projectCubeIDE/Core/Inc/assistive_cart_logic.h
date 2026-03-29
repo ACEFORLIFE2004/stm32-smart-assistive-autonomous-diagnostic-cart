@@ -8,7 +8,9 @@
 #ifndef INC_ASSISTIVE_CART_LOGIC_H_
 #define INC_ASSISTIVE_CART_LOGIC_H_
 
-#include "project.h"
+//#include "project.h"
+#include "motor_driver.h"
+
 
 typedef enum{
 	CART_INIT		= 0U,
@@ -20,9 +22,8 @@ typedef enum{
 //extern volatile SystemEnv_t system_request_state;
 
 void cart_update(void);
-
+void initialize_cart_motors(void);
+void deinitialize_cart_motors(void);
 void reset_cart_state(void);
-
-//void avoid_obstacles(void);
 
 #endif /* INC_ASSISTIVE_CART_LOGIC_H_ */

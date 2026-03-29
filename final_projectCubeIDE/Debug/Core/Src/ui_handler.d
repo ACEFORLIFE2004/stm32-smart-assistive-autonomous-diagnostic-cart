@@ -39,9 +39,8 @@ Core/Src/ui_handler.o: ../Core/Src/ui_handler.c ../Core/Inc/ui_handler.h \
  ../Core/Inc/debugger.h ../Core/Inc/timer_system.h \
  ../Core/Inc/diagnostic_handler.h ../Core/Inc/wave_generator.h \
  ../Core/Inc/sine_lut.h ../Core/Inc/fixedpt.h ../Core/Inc/dsp.h \
- ../Core/Inc/assistive_cart_logic.h ../Core/Inc/tft_lcd.h \
- ../Core/Inc/fonts.h ../Core/Inc/fixedpt.h ../Core/Inc/wave_generator.h \
- ../Core/Inc/tft_lcd.h
+ ../Core/Inc/assistive_cart_logic.h ../Core/Inc/motor_driver.h \
+ ../Core/Inc/keypad.h ../Core/Inc/tft_lcd.h ../Core/Inc/fonts.h
 ../Core/Inc/ui_handler.h:
 ../Core/Inc/system.h:
 ../Core/Inc/project.h:
@@ -91,8 +90,7 @@ Core/Src/ui_handler.o: ../Core/Src/ui_handler.c ../Core/Inc/ui_handler.h \
 ../Core/Inc/fixedpt.h:
 ../Core/Inc/dsp.h:
 ../Core/Inc/assistive_cart_logic.h:
+../Core/Inc/motor_driver.h:
+../Core/Inc/keypad.h:
 ../Core/Inc/tft_lcd.h:
 ../Core/Inc/fonts.h:
-../Core/Inc/fixedpt.h:
-../Core/Inc/wave_generator.h:
-../Core/Inc/tft_lcd.h:

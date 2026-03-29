@@ -113,3 +113,65 @@ void disable_dac_dma_trigger(void){
 
 	HAL_TIM_Base_Stop(&htim6);
 }
+
+void motor_set_duty(uint8_t duty, MotorType_t motor, MotorDir_t direction){
+	uint16_t period = __HAL_TIM_GET_AUTORELOAD(&htim2);
+
+	uint16_t CCR = (duty*period)/100;
+
+	switch(motor){
+		case LEFT_MOTOR:
+			if((direction == FORWARD_DIR) ||  (direction == NO_DIR)){
+				__HAL_TIM_SET_COMPARE(&htim11, TIM_CHANNEL_1, CCR);	/* Drive IN1 w/ PWM */
+				__HAL_TIM_SET_COMPARE(&htim14, TIM_CHANNEL_1, 0);	/* Drive IN2 low */
+			}else if(direction == REVERSE_DIR){
+				__HAL_TIM_SET_COMPARE(&htim11, TIM_CHANNEL_1, 0);	/* Drive IN1 low */
+				__HAL_TIM_SET_COMPARE(&htim14, TIM_CHANNEL_1, CCR);	/* Drive IN2 w/ PWM */
+			}
+			break;
+		case RIGHT_MOTOR:
+			if(direction == FORWARD_DIR || direction == NO_DIR){
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, CCR);	/* Drive IN1 w/ PWM */
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, 0);	/* Drive IN2 low */
+			}else if(direction == REVERSE_DIR){
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 0);	/* Drive IN1 low */
+				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, CCR);	/* Drive IN2 w/ PWM */
+			}
+			break;
+	}
+}
+
+void motor_set_frequency(uint16_t frequency){
+	uint16_t PSC = 0;
+	uint32_t ARR = (TIMx_CLK / (frequency)) - 1;
+
+	while(ARR > 0xFFFF){
+		PSC++;
+		ARR = (TIMx_CLK / ((frequency)*(PSC+1))) - 1;
+	}
+
+	__HAL_TIM_SET_PRESCALER(&htim2, PSC);
+	__HAL_TIM_SET_PRESCALER(&htim11, PSC);
+	__HAL_TIM_SET_PRESCALER(&htim14, PSC);
+
+	__HAL_TIM_SET_AUTORELOAD(&htim2, (uint16_t)ARR);
+	__HAL_TIM_SET_AUTORELOAD(&htim11, (uint16_t)ARR);
+	__HAL_TIM_SET_AUTORELOAD(&htim14, (uint16_t)ARR);
+}
+
+void stop_motor(MotorType_t motor){
+	uint16_t period = __HAL_TIM_GET_AUTORELOAD(&htim2);
+
+	uint16_t CCR = period;
+
+	switch(motor){
+		case LEFT_MOTOR:
+			__HAL_TIM_SET_COMPARE(&htim11, TIM_CHANNEL_1, CCR);	/* Drive IN1 w/ PWM */
+			__HAL_TIM_SET_COMPARE(&htim14, TIM_CHANNEL_1, CCR);	/* Drive IN2 low */
+			break;
+		case RIGHT_MOTOR:
+			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, CCR);	/* Drive IN1 w/ PWM */
+			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, CCR);	/* Drive IN2 low */
+			break;
+	}
+}

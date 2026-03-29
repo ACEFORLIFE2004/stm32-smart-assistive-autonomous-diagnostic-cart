@@ -1,2 +1,4 @@
-../Core/Src/assistive_cart_logic.c:21:6:reset_cart_state	1
-../Core/Src/assistive_cart_logic.c:25:6:cart_update	1
+../Core/Src/assistive_cart_logic.c:33:6:reset_cart_state	1
+../Core/Src/assistive_cart_logic.c:37:6:initialize_cart_motors	1
+../Core/Src/assistive_cart_logic.c:42:6:deinitialize_cart_motors	1
+../Core/Src/assistive_cart_logic.c:47:6:cart_update	3

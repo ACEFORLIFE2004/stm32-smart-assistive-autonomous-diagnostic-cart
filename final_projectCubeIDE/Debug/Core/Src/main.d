@@ -45,9 +45,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Core/Inc/project.h ../Core/Inc/diagnostic_handler.h \
  ../Core/Inc/wave_generator.h ../Core/Inc/sine_lut.h \
  ../Core/Inc/fixedpt.h ../Core/Inc/dsp.h \
- ../Core/Inc/assistive_cart_logic.h ../Core/Inc/keypad.h \
- ../Core/Inc/ui_handler.h ../Core/Inc/system.h ../Core/Inc/tft_lcd.h \
- ../Core/Inc/fonts.h ../Core/Inc/tft_lcd.h \
+ ../Core/Inc/assistive_cart_logic.h ../Core/Inc/motor_driver.h \
  ../Core/Src/../Tests/test_project.h \
  ../Core/Src/../Tests/ui_interrupt_emulator.h \
  ../Core/Src/../Tests/project_assert.h
@@ -109,12 +107,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/fixedpt.h:
 ../Core/Inc/dsp.h:
 ../Core/Inc/assistive_cart_logic.h:
-../Core/Inc/keypad.h:
-../Core/Inc/ui_handler.h:
-../Core/Inc/system.h:
-../Core/Inc/tft_lcd.h:
-../Core/Inc/fonts.h:
-../Core/Inc/tft_lcd.h:
+../Core/Inc/motor_driver.h:
 ../Core/Src/../Tests/test_project.h:
 ../Core/Src/../Tests/ui_interrupt_emulator.h:
 ../Core/Src/../Tests/project_assert.h:

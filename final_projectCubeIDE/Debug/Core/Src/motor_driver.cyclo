@@ -1,0 +1,6 @@
+../Core/Src/motor_driver.c:10:6:enable_motor_pwm	1
+../Core/Src/motor_driver.c:15:6:disable_motor_pwm	1
+../Core/Src/motor_driver.c:20:6:drive_forward	1
+../Core/Src/motor_driver.c:33:6:cart_brake	1
+../Core/Src/motor_driver.c:38:6:cart_coast	1
+../Core/Src/motor_driver.c:44:6:test_motor	1

@@ -42,7 +42,7 @@ Core/Tests/test_project.o: ../Core/Tests/test_project.c \
  ../Core/Inc/project.h ../Core/Inc/diagnostic_handler.h \
  ../Core/Inc/wave_generator.h ../Core/Inc/sine_lut.h \
  ../Core/Inc/fixedpt.h ../Core/Inc/dsp.h \
- ../Core/Inc/assistive_cart_logic.h
+ ../Core/Inc/assistive_cart_logic.h ../Core/Inc/motor_driver.h
 ../Core/Tests/test_project.h:
 ../Core/Tests/ui_interrupt_emulator.h:
 ../Core/Tests/project_assert.h:
@@ -95,3 +95,4 @@ Core/Tests/test_project.o: ../Core/Tests/test_project.c \
 ../Core/Inc/fixedpt.h:
 ../Core/Inc/dsp.h:
 ../Core/Inc/assistive_cart_logic.h:
+../Core/Inc/motor_driver.h:

@@ -1,7 +1,6 @@
-Core/Src/assistive_cart_logic.o: ../Core/Src/assistive_cart_logic.c \
- ../Core/Inc/assistive_cart_logic.h ../Core/Inc/motor_driver.h \
- ../Core/Inc/project.h ../Core/Inc/config.h ../Core/Inc/main.h \
- ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
+Core/Src/motor_driver.o: ../Core/Src/motor_driver.c \
+ ../Core/Inc/motor_driver.h ../Core/Inc/project.h ../Core/Inc/config.h \
+ ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h \
@@ -38,7 +37,6 @@ Core/Src/assistive_cart_logic.o: ../Core/Src/assistive_cart_logic.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/debugger.h ../Core/Inc/timer_system.h
-../Core/Inc/assistive_cart_logic.h:
 ../Core/Inc/motor_driver.h:
 ../Core/Inc/project.h:
 ../Core/Inc/config.h:

@@ -65,8 +65,8 @@ all: main-build
 main-build: final_projectCubeIDE.elf secondary-outputs
 
 # Tool invocations
-final_projectCubeIDE.elf final_projectCubeIDE.map: $(OBJS) $(USER_OBJS) C:\Users\akhan\Documents\stm32-smart-assistive-autonomous-diagnostic-cart\final_projectCubeIDE\STM32F446ZETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "final_projectCubeIDE.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\akhan\Documents\stm32-smart-assistive-autonomous-diagnostic-cart\final_projectCubeIDE\STM32F446ZETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="final_projectCubeIDE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+final_projectCubeIDE.elf final_projectCubeIDE.map: $(OBJS) $(USER_OBJS) C:\Users\arnol\Documents\UofT_CourseWork\ECE342\Labs\final_project\final_project_CubeIDE\final_projectCubeIDE\STM32F446ZETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "final_projectCubeIDE.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\arnol\Documents\UofT_CourseWork\ECE342\Labs\final_project\final_project_CubeIDE\final_projectCubeIDE\STM32F446ZETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="final_projectCubeIDE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
