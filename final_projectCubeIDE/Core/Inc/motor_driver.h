@@ -32,6 +32,7 @@ void enable_motor_pwm(void);
 void disable_motor_pwm(void);
 
 void drive_forward(uint8_t speed);
+void drive_reverse(uint8_t speed);
 
 void turn_right(uint8_t speed);
 void turn_left(uint8_t speed);

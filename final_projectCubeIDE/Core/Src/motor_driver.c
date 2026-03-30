@@ -8,8 +8,13 @@
 #include "motor_driver.h"
 
 void enable_motor_pwm(void){
-	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
-	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
+    /* Enable PWM for Left Motors */
+    HAL_TIM_PWM_Start(&htim11, TIM_CHANNEL_1);
+    HAL_TIM_PWM_Start(&htim14, TIM_CHANNEL_1);
+
+    /* Enable PWM for Right Motors */
+    HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
+    HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
 }
 
 void disable_motor_pwm(void){
@@ -20,6 +25,11 @@ void disable_motor_pwm(void){
 void drive_forward(uint8_t speed){
 	motor_set_duty(speed, LEFT_MOTOR, FORWARD_DIR);
 	motor_set_duty(speed, RIGHT_MOTOR, FORWARD_DIR);
+}
+
+void drive_reverse(uint8_t speed){
+    motor_set_duty(speed, LEFT_MOTOR, REVERSE_DIR);
+    motor_set_duty(speed, RIGHT_MOTOR, REVERSE_DIR);
 }
 
 void turn_right(uint8_t speed) {
@@ -48,37 +58,36 @@ void cart_coast(void){
 	motor_set_duty(0, RIGHT_MOTOR, NO_DIR);
 }
 
-
 void test_motor(void){
-	/* Hard Brake to stop */
-	drive_forward(100);
-	HAL_Delay(10000);
-	cart_brake();
-	HAL_Delay(1000);
+    /* Hard Brake to stop */
+    drive_forward(100);
+    HAL_Delay(2500);
+    cart_brake();
+    HAL_Delay(1000);
 
-	drive_forward(50);
-	HAL_Delay(10000);
-	cart_brake();
-	HAL_Delay(1000);
+    drive_forward(50);
+    HAL_Delay(2500);
+    cart_brake();
+    HAL_Delay(1000);
 
-	drive_forward(20);
-	HAL_Delay(10000);
-	cart_brake();
-	HAL_Delay(1000);
+    drive_forward(30);
+    HAL_Delay(2500);
+    cart_brake();
+    HAL_Delay(1000);
 
-	/* Coast to a stop */
-	drive_forward(100);
-	HAL_Delay(10000);
-	cart_coast();
-	HAL_Delay(1000);
+    /* Coast to a stop */
+    drive_reverse(100);
+    HAL_Delay(2500);
+    cart_coast();
+    HAL_Delay(1000);
 
-	drive_forward(50);
-	HAL_Delay(10000);
-	cart_coast();
-	HAL_Delay(1000);
+    drive_reverse(50);
+    HAL_Delay(2500);
+    cart_coast();
+    HAL_Delay(1000);
 
-	drive_forward(20);
-	HAL_Delay(10000);
-	cart_coast();
-	HAL_Delay(1000);
+    drive_reverse(30);
+    HAL_Delay(2500);
+    cart_coast();
+    HAL_Delay(1000);
 }
