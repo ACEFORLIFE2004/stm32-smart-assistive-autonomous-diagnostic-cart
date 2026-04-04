@@ -23,6 +23,8 @@
 #include "project.h"
 #include "system.h"
 
+#include "ui_handler.h"
+
 #include "../Tests/test_project.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -48,6 +50,8 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
+
+extern uint32_t last_packet_time; // This lets main see the timer in bluetooth.c
 
 /* USER CODE END PV */
 
@@ -107,6 +111,7 @@ int main(void)
   MX_TIM9_Init();
   /* USER CODE BEGIN 2 */
 
+//  BT_Init(); // Start the Bluetooth listener
   /* USER CODE END 2 */
 
   /* Initialize variables to assist with project test */

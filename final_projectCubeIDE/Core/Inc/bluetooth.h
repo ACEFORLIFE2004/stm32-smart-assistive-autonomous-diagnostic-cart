@@ -19,6 +19,9 @@ extern uint8_t bt_data;
 
 // Function Prototypes
 void BT_Init(void);
-void BT_Process_Command(uint8_t cmd);
+void BT_Update_Physics(void);
+void BT_Test_Connection(void);
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
+void BT_Echo_Service();
 
 #endif /* INC_BLUETOOTH_H_ */

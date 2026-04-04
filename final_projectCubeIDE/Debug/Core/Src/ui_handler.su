@@ -1,4 +1,6 @@
-../Core/Src/ui_handler.c:36:6:LCD_UpdateFuncValues	120	static
-../Core/Src/ui_handler.c:100:6:LCD_UpdateArbValues	72	static
-../Core/Src/ui_handler.c:127:6:ui_update	16	static
-../Core/Src/ui_handler.c:178:6:handle_keypad_input	40	static
+../Core/Src/ui_handler.c:45:6:LCD_UpdateFuncValues	120	static
+../Core/Src/ui_handler.c:108:6:LCD_UpdateArbValues	56	static
+../Core/Src/ui_handler.c:136:6:LCD_UpdateCartSpeed	64	static
+../Core/Src/ui_handler.c:156:6:LCD_UpdateCartStatus	40	static
+../Core/Src/ui_handler.c:171:6:ui_update	16	static
+../Core/Src/ui_handler.c:222:6:handle_keypad_input	40	static

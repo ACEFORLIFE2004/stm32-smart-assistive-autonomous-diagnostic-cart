@@ -37,7 +37,16 @@ Core/Src/bluetooth.o: ../Core/Src/bluetooth.c ../Core/Inc/bluetooth.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/motor_driver.h ../Core/Inc/project.h ../Core/Inc/config.h \
  ../Core/Inc/main.h ../Core/Inc/debugger.h ../Core/Inc/timer_system.h \
- ../Core/Inc/motor_driver.h
+ ../Core/Inc/motor_driver.h ../Core/Inc/system.h \
+ ../Core/Inc/diagnostic_handler.h ../Core/Inc/wave_generator.h \
+ ../Core/Inc/sine_lut.h ../Core/Inc/fixedpt.h ../Core/Inc/dsp.h \
+ ../Core/Inc/storage_controller.h ../FATFS/App/fatfs.h \
+ ../Middlewares/Third_Party/FatFs/src/ff.h \
+ ../Middlewares/Third_Party/FatFs/src/integer.h ../FATFS/Target/ffconf.h \
+ ../Core/Inc/main.h ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h \
+ ../Middlewares/Third_Party/FatFs/src/diskio.h \
+ ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/user_diskio.h \
+ ../Core/Inc/sd_spi.h ../Core/Inc/assistive_cart_logic.h
 ../Core/Inc/bluetooth.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -82,3 +91,21 @@ Core/Src/bluetooth.o: ../Core/Src/bluetooth.c ../Core/Inc/bluetooth.h \
 ../Core/Inc/debugger.h:
 ../Core/Inc/timer_system.h:
 ../Core/Inc/motor_driver.h:
+../Core/Inc/system.h:
+../Core/Inc/diagnostic_handler.h:
+../Core/Inc/wave_generator.h:
+../Core/Inc/sine_lut.h:
+../Core/Inc/fixedpt.h:
+../Core/Inc/dsp.h:
+../Core/Inc/storage_controller.h:
+../FATFS/App/fatfs.h:
+../Middlewares/Third_Party/FatFs/src/ff.h:
+../Middlewares/Third_Party/FatFs/src/integer.h:
+../FATFS/Target/ffconf.h:
+../Core/Inc/main.h:
+../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h:
+../Middlewares/Third_Party/FatFs/src/diskio.h:
+../Middlewares/Third_Party/FatFs/src/ff.h:
+../FATFS/Target/user_diskio.h:
+../Core/Inc/sd_spi.h:
+../Core/Inc/assistive_cart_logic.h:

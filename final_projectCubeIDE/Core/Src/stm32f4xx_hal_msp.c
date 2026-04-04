@@ -345,7 +345,7 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
     PE5     ------> SPI4_MISO
     PE6     ------> SPI4_MOSI
     */
-    GPIO_InitStruct.Pin = MicroSD_SCK_Pin|MicroSD_NSS_Pin|MicroSD_MISO_Pin|MicroSD_MOSI_Pin;
+    GPIO_InitStruct.Pin = MicroSD_SCK_Pin|/*MicroSD_NSS_Pin|*/MicroSD_MISO_Pin|MicroSD_MOSI_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -727,6 +727,9 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
   else if(huart->Instance==USART6)
   {
     /* USER CODE BEGIN USART6_MspInit 0 */
+	  /* USART6 interrupt Init */
+	  HAL_NVIC_SetPriority(USART6_IRQn, 0, 0);
+	  HAL_NVIC_EnableIRQ(USART6_IRQn);
 
     /* USER CODE END USART6_MspInit 0 */
     /* Peripheral clock enable */

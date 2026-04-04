@@ -1,4 +1,4 @@
-../Core/Src/assistive_cart_logic.c:33:6:reset_cart_state	1
-../Core/Src/assistive_cart_logic.c:37:6:initialize_cart_motors	1
-../Core/Src/assistive_cart_logic.c:42:6:deinitialize_cart_motors	1
-../Core/Src/assistive_cart_logic.c:47:6:cart_update	3
+../Core/Src/assistive_cart_logic.c:36:6:reset_cart_state	1
+../Core/Src/assistive_cart_logic.c:40:6:initialize_cart_motors	1
+../Core/Src/assistive_cart_logic.c:45:6:deinitialize_cart_motors	1
+../Core/Src/assistive_cart_logic.c:50:6:cart_update	9

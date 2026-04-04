@@ -35,6 +35,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include <string.h>
 #include "ff_gen_drv.h"
+#include "user_diskio.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -82,6 +83,30 @@ DSTATUS USER_initialize (
 {
   /* USER CODE BEGIN INIT */
     Stat = STA_NOINIT;
+
+    SD_STATUS card_status = SD_Initialize();
+
+    switch(card_status){
+		case SD_IDLE:
+			Stat = STA_NOINIT;
+			break;
+		case SD_READY:
+			Stat = RES_OK;
+			break;
+		case SD_VOLTAGE_MISMATCH:
+			Stat = STA_NOINIT;
+			break;
+		case SD_NO_CARD:
+			Stat = STA_NODISK;
+			break;
+		case SD_ERROR:
+			Stat = STA_NOINIT;
+			break;
+		default:
+			Stat = STA_NOINIT;
+			break;
+    }
+
     return Stat;
   /* USER CODE END INIT */
 }
@@ -97,6 +122,28 @@ DSTATUS USER_status (
 {
   /* USER CODE BEGIN STATUS */
     Stat = STA_NOINIT;
+
+    switch(micro_sd_handle.Status){
+		case SD_IDLE:
+			Stat = STA_NOINIT;
+			break;
+		case SD_READY:
+			Stat = RES_OK;
+			break;
+		case SD_VOLTAGE_MISMATCH:
+			Stat = STA_NOINIT;
+			break;
+		case SD_NO_CARD:
+			Stat = STA_NODISK;
+			break;
+		case SD_ERROR:
+			Stat = STA_NOINIT;
+			break;
+		default:
+			Stat = STA_NOINIT;
+			break;
+    }
+
     return Stat;
   /* USER CODE END STATUS */
 }
@@ -117,6 +164,23 @@ DRESULT USER_read (
 )
 {
   /* USER CODE BEGIN READ */
+	if(micro_sd_handle.Status != SD_READY){
+		return RES_NOTRDY;
+	}
+
+	uint32_t offset;
+	for(UINT i = 0; i < count; i++){
+		offset = i << 9;	/* Multiply by 512 */
+
+		(void)SD_Read_Single_Block((sector << 9), (buff + offset), _MAX_SS);
+
+		sector++;
+
+		if(micro_sd_handle.Status != SD_READY){
+			return RES_ERROR;
+		}
+	}
+
     return RES_OK;
   /* USER CODE END READ */
 }
@@ -164,4 +228,3 @@ DRESULT USER_ioctl (
   /* USER CODE END IOCTL */
 }
 #endif /* _USE_IOCTL == 1 */
-

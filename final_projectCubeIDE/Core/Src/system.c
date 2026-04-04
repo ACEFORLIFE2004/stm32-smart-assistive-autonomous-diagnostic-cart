@@ -8,6 +8,8 @@
 #include "system.h"
 #include "tft_lcd.h"
 #include "fatfs.h"
+#include "storage_controller.h"
+#include "bluetooth.h"
 
 /* Private variables ---------------------------------------------------------*/
 static GlobalState_t global_state;
@@ -58,7 +60,29 @@ static void system_init_core_peripherals(void){
 	append_stack(FN_SYS_INIT_CORE_ID);
 
 	SYS_Core_Peripheral_Init();
+	print_msg("Core config done\r\n");
+	BT_Init();
 	LCD_Init();
+	print_msg("Starting MicroSD config\r\n");
+	SD_Mode_Switch();
+	print_msg("MicroSD config done\r\n");
+//	SD_Initialize();
+	FRESULT res = f_mount(&USERFatFS, USERPath, 1);
+	if(res != FR_OK){
+		(void)sprintf(error_msg_buf, "  <err> system_init_core_peripherals: Failed to mount storage device with code %u\r\n", res);
+		print_error_msg();
+	}
+	print_msg("  --> Storage Device mounted successfully\r\n");
+
+	StorageStatus_t status;
+
+	status = storage_scan_root("0:", &g_storage_catalog);
+	if (status != STORAGE_OK) {
+	    print_msg("Storage scan failed: %u\r\n", status);
+	    return;
+	}
+
+	storage_print_catalog(&g_storage_catalog);
 
 	pop_stack();
 }
@@ -115,10 +139,11 @@ void system_update(void){
 
 	switch(global_state){
 		case SYS_BOOT:
+			print_msg("\r\nBOOTING:\r\n");
 //			measure_exec_time(DEFAULT_RANGE);												  /* Start Test */
 			system_init_core_peripherals();														/* <=== Section Under Test */
 //			(void)get_exec_time("system_init_core_peripherals", DEFAULT_RANGE, NANO_SECONDS); /* End Test */
-			print_msg("\r\nBOOTING:\r\n  -> Core peripherals initialized successfully\r\n");
+			print_msg("  -> Core peripherals initialized successfully\r\n");
 
 //			measure_exec_time(DEFAULT_RANGE);												/* Start Test */
 			system_runtime_state.system_mode = MODE_NONE;
@@ -164,7 +189,7 @@ void system_update(void){
 			}else if(system_runtime_state.system_mode == MODE_DIAGNOSTIC){
 				/* Continue running diagnostic mode */
 				diagnostic_update();
-				print_msg("  -> Diagnostic logic updated ...\r\n");
+//				print_msg("  -> Diagnostic logic updated ...\r\n");
 
 				/* Make any updates to subsystem state requested by diagnostic submodule */
 				system_runtime_state.diagnostic_state = system_request_state.diagnostic_state;

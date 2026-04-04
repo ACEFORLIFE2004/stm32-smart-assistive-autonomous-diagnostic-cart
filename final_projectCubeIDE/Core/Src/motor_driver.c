@@ -18,6 +18,9 @@ void enable_motor_pwm(void){
 }
 
 void disable_motor_pwm(void){
+	HAL_TIM_PWM_Stop(&htim11, TIM_CHANNEL_1);
+	HAL_TIM_PWM_Stop(&htim14, TIM_CHANNEL_1);
+
 	HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_3);
 	HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_4);
 }
@@ -58,15 +61,36 @@ void cart_coast(void){
 	motor_set_duty(0, RIGHT_MOTOR, NO_DIR);
 }
 
+void motor_apply_physics(float left_speed, float right_speed) {
+
+	if (left_speed == 0 && right_speed == 0) {
+		cart_brake();
+	} else {
+		// Left Motor Logic
+		if (left_speed >= 0) {
+			motor_set_duty((uint8_t)left_speed, LEFT_MOTOR, REVERSE_DIR);
+		} else {
+			motor_set_duty((uint8_t)(-left_speed), LEFT_MOTOR, FORWARD_DIR);
+		}
+
+		// Right Motor Logic
+		if (right_speed >= 0) {
+			motor_set_duty((uint8_t)right_speed, RIGHT_MOTOR, FORWARD_DIR);
+		} else {
+			motor_set_duty((uint8_t)(-right_speed), RIGHT_MOTOR, REVERSE_DIR);
+		}
+	}
+}
+
 void test_motor(void){
     /* Hard Brake to stop */
     drive_forward(100);
-    HAL_Delay(2500);
+    HAL_Delay(10000);
     cart_brake();
     HAL_Delay(1000);
 
     drive_forward(50);
-    HAL_Delay(2500);
+    HAL_Delay(10000);
     cart_brake();
     HAL_Delay(1000);
 
@@ -77,17 +101,17 @@ void test_motor(void){
 
     /* Coast to a stop */
     drive_reverse(100);
-    HAL_Delay(2500);
+    HAL_Delay(10000);
     cart_coast();
     HAL_Delay(1000);
 
     drive_reverse(50);
-    HAL_Delay(2500);
+    HAL_Delay(10000);
     cart_coast();
     HAL_Delay(1000);
 
     drive_reverse(30);
-    HAL_Delay(2500);
+    HAL_Delay(10000);
     cart_coast();
     HAL_Delay(1000);
 }

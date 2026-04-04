@@ -263,7 +263,7 @@ void MX_SPI4_Init(void)
   hspi4.Init.DataSize = SPI_DATASIZE_8BIT;
   hspi4.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi4.Init.CLKPhase = SPI_PHASE_1EDGE;
-  hspi4.Init.NSS = SPI_NSS_HARD_OUTPUT;
+  hspi4.Init.NSS = SPI_NSS_SOFT;
   hspi4.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
   hspi4.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi4.Init.TIMode = SPI_TIMODE_DISABLE;
@@ -595,7 +595,7 @@ void MX_USART6_UART_Init(void)
 
   /* USER CODE END USART6_Init 1 */
   huart6.Instance = USART6;
-  huart6.Init.BaudRate = 115200;
+  huart6.Init.BaudRate = 9600;
   huart6.Init.WordLength = UART_WORDLENGTH_8B;
   huart6.Init.StopBits = UART_STOPBITS_1;
   huart6.Init.Parity = UART_PARITY_NONE;
@@ -758,6 +758,9 @@ void CSTM_Core_GPIO_Init(void){
 	__HAL_RCC_GPIOG_CLK_ENABLE();
 
 	/*Configure GPIO pin Output Level */
+	HAL_GPIO_WritePin(MicroSD_NSS_GPIO_Port, MicroSD_NSS_Pin, GPIO_PIN_SET);
+
+	/*Configure GPIO pin Output Level */
 	HAL_GPIO_WritePin(ROW3_GPIO_Port, ROW3_Pin, GPIO_PIN_RESET);
 
 	/*Configure GPIO pin Output Level */
@@ -774,6 +777,19 @@ void CSTM_Core_GPIO_Init(void){
 	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	HAL_GPIO_Init(MicroSD_DET1_GPIO_Port, &GPIO_InitStruct);
+
+	/*Configure GPIO pin : MicroSD_NSS_Pin */
+	GPIO_InitStruct.Pin = MicroSD_NSS_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+	HAL_GPIO_Init(MicroSD_NSS_GPIO_Port, &GPIO_InitStruct);
+
+	/*Configure GPIO pin : GPIO_PIN_13*/
+	GPIO_InitStruct.Pin = GPIO_PIN_13;
+	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
 	/*Configure GPIO pin : ROW3_Pin */
 	GPIO_InitStruct.Pin = ROW3_Pin;
@@ -798,7 +814,7 @@ void CSTM_Core_GPIO_Init(void){
 	/*Configure GPIO pins : COL1_Pin COL2_Pin COL3_Pin */
 	GPIO_InitStruct.Pin = COL1_Pin|COL2_Pin|COL3_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
 	HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
 	/*Configure GPIO pin : TFT_LCD_DC_Pin */
@@ -834,6 +850,9 @@ void CSTM_Cart_GPIO_Init(void){
 
 	/*Configure GPIO pin Output Level */
 	HAL_GPIO_WritePin(GPIOD, SENSOR_TRIG_RIGHT_Pin|SENSOR_TRIG_CENTER_Pin|SENSOR_TRIG_LEFT_Pin, GPIO_PIN_RESET);
+
+	/*Configure GPIO pin Output Level */
+	HAL_GPIO_WritePin(MicroSD_NSS_GPIO_Port, MicroSD_NSS_Pin, GPIO_PIN_SET);
 
 	/*Configure GPIO pins : SENSOR_ECHO_Pin */
 	GPIO_InitStruct.Pin = SENSOR_ECHO_Pin;

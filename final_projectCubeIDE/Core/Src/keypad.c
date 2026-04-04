@@ -23,25 +23,21 @@ char keypad_map[4][3] = {
 };
 
 void keypad_update(void) {
-    // ROW 1 - Port E, Pin 0
     current_row = 0;
     HAL_GPIO_WritePin(ROW1_GPIO_Port, ROW1_Pin, GPIO_PIN_SET);
     HAL_Delay(2);
     HAL_GPIO_WritePin(ROW1_GPIO_Port, ROW1_Pin, GPIO_PIN_RESET);
 
-    // ROW 2 - Port B, Pin 0
     current_row = 1;
     HAL_GPIO_WritePin(ROW2_GPIO_Port, ROW2_Pin, GPIO_PIN_SET);
     HAL_Delay(2);
     HAL_GPIO_WritePin(ROW2_GPIO_Port, ROW2_Pin, GPIO_PIN_RESET);
 
-    // ROW 3 - Port A, Pin 0
     current_row = 2;
     HAL_GPIO_WritePin(ROW3_GPIO_Port, ROW3_Pin, GPIO_PIN_SET);
     HAL_Delay(2);
     HAL_GPIO_WritePin(ROW3_GPIO_Port, ROW3_Pin, GPIO_PIN_RESET);
 
-    // ROW 4 - Port B, Pin 2
     current_row = 3;
     HAL_GPIO_WritePin(ROW4_GPIO_Port, ROW4_Pin, GPIO_PIN_SET);
     HAL_Delay(2);

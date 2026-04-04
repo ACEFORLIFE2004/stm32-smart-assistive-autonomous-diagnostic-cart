@@ -20,14 +20,19 @@
 
 //extern DiagnosticConfig_t func_wave_1, func_wave_2, func_wave_3;
 
-static uint8_t selection_made = 0;
-static uint8_t edit_line = 0;       // Matches the logic below
-static char input_buffer[10];       // Matches the logic below
-static uint8_t buffer_index = 0;    // Matches the logic below
+const char* arb_files[] = {
+    "BEET-M~1.WAV",
+    "MERRY-~1.WAV",
+    "TWISTE~1.WAV",
+    "WE-WIS~1.WAV"
+};
+#define NUM_ARB_FILES 4
+static uint8_t file_idx = 0; // Tracks which file is selected
 
-//void request_system_mode(SystemMode_t new_system_mode);
-//void request_cart_state(AssistiveCartSubstate_t new_cart_state);
-//void request_diagnostic_state(DiagnosticSubstate_t new_diagnostic_state);
+static uint8_t selection_made = 0;
+static uint8_t edit_line = 0;
+static char input_buffer[10];
+static uint8_t buffer_index = 0;
 
 static GlobalState_t last_global_state = SYS_BOOT;
 static SystemMode_t last_system_mode = MODE_NONE;
@@ -38,15 +43,15 @@ void LCD_UpdateFuncValues() {
     uint16_t highlight_color = 0xFFE0; // Yellow for active line
     uint16_t normal_color = 0xFFFF;    // White for inactive
 
-    // --- 1. SHAPE LINE ---
+    // --- SHAPE LINE ---
     char* shapes[] = {"SINE", "SQUARE", "TRIANGLE", "SAWTOOTH"};
     uint16_t c0 = (edit_line == 0) ? highlight_color : normal_color;
 
-    // Clear the old text area with a black rectangle first to prevent "ghosting"
+    // Clear the old text area with a black rectangle
     LCD_DrawRect(150, 50, 150, 20, 0x0000);
     LCD_WriteString(150, 50, shapes[func_wave_1.wav_function], Font_11x18, c0, 0x0000);
 
-    // --- 2. FREQUENCY LINE ---
+    // --- FREQUENCY LINE ---
     uint16_t c1 = (edit_line == 1) ? highlight_color : normal_color;
     LCD_DrawRect(150, 90, 150, 20, 0x0000);
 
@@ -58,70 +63,100 @@ void LCD_UpdateFuncValues() {
     }
     LCD_WriteString(150, 90, str, Font_11x18, c1, 0x0000);
 
-    // --- 3. AMPLITUDE LINE ---
+    // --- AMPLITUDE LINE ---
     uint16_t c2 = (edit_line == 2) ? highlight_color : normal_color;
     LCD_DrawRect(150, 130, 150, 20, 0x0000);
 
     if (edit_line == 2 && buffer_index > 0) {
-    	// 1. Get the raw number typed so far (e.g., "125")
+    	// Get the raw number typed so far (e.g., "125")
 		int raw_val = atoi(input_buffer);
 
-		// 2. Split it into whole and hundredths manually
+		// Split it into whole and hundredths manually
 		int whole = raw_val / 100;      // 125 -> 1
 		int hundredths = raw_val % 100; // 125 -> 25
 
-		// 3. Display it with the dot so the user knows it's 1.25V
+		// Display it with the dot so the user knows it's 1.25V
 		sprintf(str, "%d.%02d V", whole, hundredths);
     } else {
-    	// 1. Convert Arnold's fixed-point to a temporary float
+    	// Convert fixed-point to a temporary float
 		float amp_f = FXD_TO_FLOAT(func_wave_1.wav_amplitude);
 
-		// 2. Extract the whole number (e.g., 1.45 -> 1)
+		// Extract the whole number
 		int whole = (int)amp_f;
 
-		// 3. Extract the hundredths (e.g., 0.45 * 100 -> 45)
-		// We add 0.5 to the result before casting to int to handle rounding
-		// (e.g., 0.44999 becomes 45 instead of 44)
+		// Extract the hundredths
 		int hundredths = (int)((amp_f - (float)whole) * 100.0f + 0.5f);
 
-		// Safety check for rounding overflow (e.g., 0.999 -> 1.00)
+		// Safety check for rounding overflow
 		if (hundredths >= 100) {
 			whole += 1;
 			hundredths = 0;
 		}
 
-		// 4. Format using only integers (%d)
-		// %02d is CRITICAL: it ensures "1.05" doesn't look like "1.5"
+		// Format using only integers
 		sprintf(str, "%d.%02d V", whole, abs(hundredths));
     }
     LCD_WriteString(150, 130, str, Font_11x18, c2, 0x0000);
 }
 
 void LCD_UpdateArbValues() {
-    char str[16];
-    char* filters[] = {"NONE", "FIR ", "IIR "}; // Added space to clear old text
-    char* outputs[] = {"WAVE", "FFT "};
+    // Clear only the dynamic area to prevent flicker
+    LCD_DrawRect(0, 60, 320, 140, 0x0000);
 
-    uint16_t high = 0xFFE0; // Yellow for selected
-    uint16_t norm = 0xFFFF; // White for unselected
+    // --- FILE SELECTION ---
+    uint16_t color0 = (edit_line == 0) ? 0x07FF : 0xFFFF;
+    LCD_WriteString(10, 70, "FILE:", Font_11x18, 0x07E0, 0x0000);
+    LCD_WriteString(100, 70, (char*)arb_files[file_idx], Font_11x18, color0, 0x0000);
 
-    // --- 1. FILTER LINE (Row 2, Y=90) ---
-    uint16_t c1 = (edit_line == 1) ? high : norm;
-    // Clear value area only (X starts around 150)
-    LCD_DrawRect(150, 90, 100, 20, 0x0000);
-    LCD_WriteString(150, 90, filters[func_wave_1.digital_filter], Font_11x18, c1, 0x0000);
+    // --- FILTER ---
+    uint16_t color1 = (edit_line == 1) ? 0x07FF : 0xFFFF;
+    char* filter_names[] = {"NONE", "FIR", "IIR"};
+    LCD_WriteString(10, 110, "FLTR:", Font_11x18, 0x07E0, 0x0000);
+    LCD_WriteString(100, 110, filter_names[func_wave_1.digital_filter], Font_11x18, color1, 0x0000);
 
-    // --- 2. OUTPUT MODE (Row 3, Y=130) ---
-    uint16_t c2 = (edit_line == 2) ? high : norm;
-    LCD_DrawRect(150, 130, 100, 20, 0x0000);
-    LCD_WriteString(150, 130, outputs[func_wave_1.screen_output], Font_11x18, c2, 0x0000);
+    // --- OUTPUT MODE ---
+    uint16_t color2 = (edit_line == 2) ? 0x07FF : 0xFFFF;
+    char* out_names[] = {"WAVE", "FFT"};
+    LCD_WriteString(10, 150, "DISP:", Font_11x18, 0x07E0, 0x0000);
+    LCD_WriteString(100, 150, out_names[func_wave_1.screen_output], Font_11x18, color2, 0x0000);
 
-    // --- 3. SAMPLE SIZE (Row 4, Y=170) ---
-    // This isn't editable in Arnold's current struct logic,
-    // but we should show the constant value.
-    sprintf(str, "%d", func_wave_1.sample_size);
-    LCD_DrawRect(150, 170, 100, 20, 0x0000);
-    LCD_WriteString(150, 170, str, Font_11x18, 0xFFFF, 0x0000);
+    // --- FOOTER ---
+    LCD_DrawRect(10, 210, 300, 1, 0x7BEF);
+    LCD_WriteString(20, 215, "[*] NEXT  [0-9] TOGGLE", Font_11x18, 0x07E0, 0x0000);
+}
+
+void LCD_UpdateCartSpeed(float speed) {
+    // Check if we are in the right mode
+    SystemEnv_t* env = get_system_state();
+    if (get_global_state() != SYS_RUNNING || env->system_mode != MODE_ASSIST) {
+        return;
+    }
+
+    char speed_str[16];
+
+    // Split float into Whole and Fractional parts
+    int whole = (int)speed;
+    int tenths = (int)((speed - (float)whole) * 10.0f);
+
+    // Format using only integers
+    sprintf(speed_str, "%d.%d m/s", whole, abs(tenths));
+
+    // Clear and Draw
+    LCD_WriteString(120, 120, speed_str, Font_11x18, 0x07E0, 0x0000);
+}
+
+void LCD_UpdateCartStatus(const char* status, uint16_t color) {
+    // Safety Guard
+    SystemEnv_t* env = get_system_state();
+    if (get_global_state() != SYS_RUNNING || env->system_mode != MODE_ASSIST) {
+        return;
+    }
+
+    // Clear the old status area first
+    LCD_DrawRect(120, 80, 150, 18, 0x0000);
+
+    // Draw the new status
+    LCD_WriteString(120, 80, status, Font_11x18, color, 0x0000);
 }
 
 void ui_update(void) {
@@ -133,7 +168,7 @@ void ui_update(void) {
 		if (last_global_state != SYS_IDLE) {
 			LCD_DrawModeSelect();
 
-			// RESET EVERYTHING HERE
+			// RESET EVERYTHING
 			last_global_state = SYS_IDLE;
 			last_system_mode = MODE_NONE;
 			last_diag_state = DIAGNOSTIC_INIT;
@@ -159,7 +194,6 @@ void ui_update(void) {
         else if (env->system_mode == MODE_DIAGNOSTIC) {
 
             // --- Draw the Selection Menu (Waiting for 3 or 4) ---
-            // We only draw this if we haven't made a selection (3/4) yet
             if (env->diagnostic_state == DIAGNOSTIC_CONFIG && selection_made == 0) {
                 if (last_diag_state != DIAGNOSTIC_CONFIG) {
                     LCD_DrawSigMain();
@@ -179,87 +213,96 @@ void handle_keypad_input(char key) {
     GlobalState_t current_global = get_global_state();
     SystemEnv_t* env = get_system_state();
 
-    // 1. UNIVERSAL EXIT (Using '#' as requested)
+    // UNIVERSAL EXIT
     if (key == '#') {
     	print_msg("UI: Exit to Main Menu\r\n");
 		request_system_mode(MODE_NONE); // This sets GlobalState to SYS_IDLE
 
-		// 1. Reset UI Trackers
+		// Reset UI Trackers
 		selection_made = 0;
 		edit_line = 0;
 		buffer_index = 0;
 		memset(input_buffer, 0, sizeof(input_buffer));
 
-		// 2. THE FIX: Force the UI to notice the change
-		// We set last_global_state to something impossible (like 99)
-		// so the next 'ui_update' sees (SYS_IDLE != 99) and redraws the menu.
+		// Reset the Data Struct
+		func_wave_1.wav_function = 0;       // Back to Sine
+		func_wave_1.wav_frequency = 0;      // 0 Hz
+		func_wave_1.wav_amplitude = 0;      // 0 V
+
+		// Force the UI to notice the change
 		last_global_state = 0xFF;
 
 		return;
     }
 
-    // 2. MAIN MENU NAVIGATION (Wait for 1 or 2)
+    // MAIN MENU NAVIGATION
     if (current_global == SYS_IDLE) {
         if (key == '1') {
+        	print_msg("UI: Go into Cart Mode\r\n");
             request_system_mode(MODE_ASSIST);
         } else if (key == '2') {
+        	print_msg("UI: Go into Diagnostic Mode\r\n");
             request_system_mode(MODE_DIAGNOSTIC);
-            selection_made = 0; // Show the 3/4 selection screen first
+            selection_made = 0;
         }
     }
 
-    // 3. DIAGNOSTIC MODE LOGIC
+    // DIAGNOSTIC MODE LOGIC
     else if (current_global == SYS_RUNNING && env->system_mode == MODE_DIAGNOSTIC) {
 
-        // --- STEP 1: Choose between Function(3) or Arbitrary(4) ---
-        if (selection_made == 0) {
-            if (key == '3') {
-                func_wave_1.wave_gen_mode = FUNCTION_WAVE_GEN_MODE;
-                selection_made = 1;
-                LCD_DrawFuncInput();     // Draw the labels/lines once
-                LCD_UpdateFuncValues(); // Draw the current numbers
-            } else if (key == '4') {
-                func_wave_1.wave_gen_mode = ARBITRARY_WAVE_GEN_MODE;
-                selection_made = 1;
-                edit_line = 1;
-                LCD_DrawArbInput();
-                LCD_UpdateArbValues();
-            }
-        }
+    	if (selection_made == 0) {
+    	    if (key == '3') {
+    	        func_wave_1.wave_gen_mode = FUNCTION_WAVE_GEN_MODE;
+    	        selection_made = 1;
+    	        edit_line = 0;
+    	        LCD_DrawFuncInput();
+    	        LCD_UpdateFuncValues();
+    	    } else if (key == '4') {
+    	        func_wave_1.wave_gen_mode = ARBITRARY_WAVE_GEN_MODE;
+    	        selection_made = 1;
 
-        // --- STEP 2: Function Mode ---
+    	        edit_line = 0;
+
+    	        LCD_DrawArbInput();
+    	        LCD_UpdateArbValues();
+    	    }
+    	}
+
+        // --- Function Mode ---
         else if (selection_made == 1 && func_wave_1.wave_gen_mode == FUNCTION_WAVE_GEN_MODE) {
 
             // NEXT LINE (Star Key)
-            if (key == '*') {
-                // Save the typed number to the struct before moving
-                if (buffer_index > 0) {
-                    if (edit_line == 1) {
-                        uint32_t val = atoi(input_buffer);
-                        // Bounds check based on Arnold's defines
-                        if (val >= MIN_WAVE_FREQ && val <= MAX_WAVE_FREQ) {
-                            func_wave_1.wav_frequency = val;
-                        }
-                    } else if (edit_line == 2) {
-                    	// Convert string "125" to float 1.25
-						float amp = (float)atoi(input_buffer) / 100.0f;
+        	if (key == '*') {
+        	    // Save the typed number to the struct before moving
+        	    if (buffer_index > 0) {
+        	        if (edit_line == 1) {
+        	            uint32_t val = atoi(input_buffer);
+        	            if (val >= MIN_WAVE_FREQ && val <= MAX_WAVE_FREQ) {
+        	                func_wave_1.wav_frequency = val;
+        	            }
+        	        } else if (edit_line == 2) {
+        	            float amp = (float)atoi(input_buffer) / 100.0f;
+        	            if (amp > 3.3f) amp = 3.3f;
+        	            if (amp < 0.0f) amp = 0.0f;
+        	            func_wave_1.wav_amplitude = FXD_FROM_FLOAT(amp);
 
-						// Safety Bounds Check (Typical DAC is 0V to 3.3V)
-						if (amp > 3.3f) amp = 3.3f;
-						if (amp < 0.0f) amp = 0.0f;
+        	            // --- TRIGGER WAVE GENERATION HERE ---
 
-						// Convert to Arnold's Q16.16 format using the macro
-						func_wave_1.wav_amplitude = FXD_FROM_FLOAT(amp);
-                    }
-                }
+        	            print_msg("DSP: Generating new waveform...\r\n");
 
-                // Move cursor and clear buffer
-                edit_line = (edit_line + 1) % 3; // Cycle through 0, 1, 2
-                buffer_index = 0;
-                memset(input_buffer, 0, sizeof(input_buffer));
+        	            diag_config_flag = 1;
 
-                LCD_UpdateFuncValues(); // Refresh screen to show new focus
-            }
+        	            print_msg("DSP: Waveform streaming active.\r\n");
+        	        }
+        	    }
+
+        	    // Move cursor and clear buffer
+        	    edit_line = (edit_line + 1) % 3;
+        	    buffer_index = 0;
+        	    memset(input_buffer, 0, sizeof(input_buffer));
+
+        	    LCD_UpdateFuncValues();
+        	}
 
             // TYPE NUMBERS
             else if (key >= '0' && key <= '9') {
@@ -277,32 +320,47 @@ void handle_keypad_input(char key) {
                 LCD_UpdateFuncValues();
             }
         }
-        // --- STEP 3: Arbitrary Mode Logic ---
+        // --- Arbitrary Mode Logic ---
         else if (selection_made == 1 && func_wave_1.wave_gen_mode == ARBITRARY_WAVE_GEN_MODE) {
 
-            // 1. NEXT LINE (Star Key - just like Function Mode)
-            if (key == '*') {
-                // Cycle edit_line between 1 (Filter) and 2 (Output)
-                // We skip 0 because that's the Header/Source line
-                edit_line = (edit_line == 1) ? 2 : 1;
+            // NAVIGATION
+        	if (key == '*') {
+        	    // If we are currently on the LAST line (Output) and press '*',
+        	    // it means we are looping back.
+        	    if (edit_line == 2) {
+        	        print_msg("DSP: Finalizing Arbitrary Config...\r\n");
+        	        diag_config_flag = 1;
+        	    }
 
-                // Optional: If you want '*' to also START the wave when on the last line:
-                // if (edit_line == 2) stream_arbitrary_wave(&func_wave_1);
+        	    edit_line = (edit_line + 1) % 3;
 
-                LCD_UpdateArbValues();
-            }
+        	    // Reset buffer
+        	    buffer_index = 0;
+        	    memset(input_buffer, 0, sizeof(input_buffer));
 
-            // 2. CHANGE SETTINGS (Number Keys)
+        	    LCD_UpdateArbValues();
+        	}
+
+            // CHANGE SETTINGS
             else if (key >= '0' && key <= '9') {
-                if (edit_line == 1) {
-                    // Cycle: NONE -> FIR -> IIR
+                if (edit_line == 0) {
+                    // --- FILE SELECTION ---
+                    file_idx = (file_idx + 1) % NUM_ARB_FILES;
+                    strncpy(func_wave_1.file_name, arb_files[file_idx], STORAGE_NAME_LEN);
+                    func_wave_1.file_name[STORAGE_NAME_LEN - 1] = '\0';
+
+                    print_msg("File Selected: %s\r\n", func_wave_1.file_name);
+                }
+                else if (edit_line == 1) {
+                    // --- FILTER SELECTION ---
                     func_wave_1.digital_filter = (func_wave_1.digital_filter + 1) % 3;
                 }
                 else if (edit_line == 2) {
-                    // Toggle: WAVE -> FFT
+                    // --- OUTPUT SELECTION ---
                     func_wave_1.screen_output = (func_wave_1.screen_output + 1) % 2;
                 }
 
+				print_msg("Updating Arb Wave Config...\r\n");
                 LCD_UpdateArbValues();
             }
         }

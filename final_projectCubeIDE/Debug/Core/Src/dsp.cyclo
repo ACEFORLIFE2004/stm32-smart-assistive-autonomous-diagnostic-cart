@@ -1,0 +1,4 @@
+../Core/Src/dsp.c:15:6:reset_dsp_state	1
+../Core/Src/dsp.c:21:6:apply_echo	7
+../Core/Src/dsp.c:57:6:apply_reverb	7
+../Core/Src/dsp.c:104:6:apply_quadrature	4

@@ -8,7 +8,7 @@
 ../Core/Src/tft_lcd.c:114:6:LCD_DrawPixel	3
 ../Core/Src/tft_lcd.c:124:6:LCD_DrawLine	9
 ../Core/Src/tft_lcd.c:146:6:LCD_DrawModeSelect	1
-../Core/Src/tft_lcd.c:164:6:LCD_DrawCartMain	1
-../Core/Src/tft_lcd.c:186:6:LCD_DrawSigMain	1
-../Core/Src/tft_lcd.c:202:6:LCD_DrawArbInput	1
-../Core/Src/tft_lcd.c:225:6:LCD_DrawFuncInput	1
+../Core/Src/tft_lcd.c:162:6:LCD_DrawCartMain	1
+../Core/Src/tft_lcd.c:184:6:LCD_DrawSigMain	1
+../Core/Src/tft_lcd.c:215:6:LCD_DrawArbInput	1
+../Core/Src/tft_lcd.c:238:6:LCD_DrawFuncInput	1

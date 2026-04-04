@@ -25,9 +25,6 @@ typedef struct AssistiveCartParam{
 }AssistiveCartParam_t;
 
 
-
-//void avoid_obstacles(void);
-
 void enable_motor_pwm(void);
 void disable_motor_pwm(void);
 
@@ -44,6 +41,8 @@ void reverse_spin_left(uint16_t angle);
 
 void cart_brake(void);
 void cart_coast(void);
+
+void motor_apply_physics(float left_speed, float right_speed);
 
 void test_motor(void);
 

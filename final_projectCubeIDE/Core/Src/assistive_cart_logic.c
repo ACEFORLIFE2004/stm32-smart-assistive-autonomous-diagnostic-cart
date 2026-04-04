@@ -6,6 +6,9 @@
  */
 
 #include "assistive_cart_logic.h"
+#include "bluetooth.h"
+
+extern uint32_t last_packet_time;
 
 /****************************************************************
  *				Imported public System APIs						*
@@ -44,21 +47,39 @@ void deinitialize_cart_motors(void){
 	disable_motor_pwm();
 }
 
-void cart_update(){
-	switch(current_cart_state){
-		case CART_INIT:
-			initialize_cart_motors();
-			test_motor();				/* Notice: It is a pretty long test (well over 1 minute) */
-			deinitialize_cart_motors();
+void cart_update() {
+    extern float current_left, current_right;
 
-			current_cart_state = CART_INIT;
-			request_cart_state(current_cart_state);
-			break;
-		case CART_WAIT_CMD:
-			break;
-		case CART_MOVING:
-			break;
-		case CART_STOP:
-			break;
-	}
+    switch(current_cart_state) {
+        case CART_INIT:
+            initialize_cart_motors();
+            // Transition to wait
+            current_cart_state = CART_WAIT_CMD;
+            request_cart_state(CART_WAIT_CMD); // Tell the system state machine
+            print_msg("Cart: Initialized and Waiting\n");
+            break;
+
+        case CART_WAIT_CMD:
+            BT_Update_Physics();
+            // If the wheels start moving, transition to MOVING
+            if (abs(current_left) > 1.0f || abs(current_right) > 1.0f) {
+                current_cart_state = CART_MOVING;
+                request_cart_state(CART_MOVING);
+            }
+            break;
+
+        case CART_MOVING:
+            BT_Update_Physics();
+            // If we come to a full stop, go back to WAIT
+            if (abs(current_left) < 0.1f && abs(current_right) < 0.1f) {
+                current_cart_state = CART_WAIT_CMD;
+                request_cart_state(CART_WAIT_CMD);
+            }
+            break;
+
+        case CART_STOP:
+            motor_apply_physics(0, 0);
+            print_msg("Cart: Emergency Stop Active\n");
+            break;
+    }
 }

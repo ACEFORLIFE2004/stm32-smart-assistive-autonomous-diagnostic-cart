@@ -39,13 +39,15 @@ Core/Src/system.o: ../Core/Src/system.c ../Core/Inc/system.h \
  ../Core/Inc/debugger.h ../Core/Inc/timer_system.h \
  ../Core/Inc/diagnostic_handler.h ../Core/Inc/wave_generator.h \
  ../Core/Inc/sine_lut.h ../Core/Inc/fixedpt.h ../Core/Inc/dsp.h \
- ../Core/Inc/assistive_cart_logic.h ../Core/Inc/motor_driver.h \
- ../Core/Inc/tft_lcd.h ../Core/Inc/fonts.h ../FATFS/App/fatfs.h \
+ ../Core/Inc/storage_controller.h ../FATFS/App/fatfs.h \
  ../Middlewares/Third_Party/FatFs/src/ff.h \
  ../Middlewares/Third_Party/FatFs/src/integer.h ../FATFS/Target/ffconf.h \
  ../Core/Inc/main.h ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h \
  ../Middlewares/Third_Party/FatFs/src/diskio.h \
- ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/user_diskio.h
+ ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/user_diskio.h \
+ ../Core/Inc/sd_spi.h ../Core/Inc/assistive_cart_logic.h \
+ ../Core/Inc/motor_driver.h ../Core/Inc/tft_lcd.h ../Core/Inc/fonts.h \
+ ../Core/Inc/storage_controller.h ../Core/Inc/bluetooth.h
 ../Core/Inc/system.h:
 ../Core/Inc/project.h:
 ../Core/Inc/config.h:
@@ -93,10 +95,7 @@ Core/Src/system.o: ../Core/Src/system.c ../Core/Inc/system.h \
 ../Core/Inc/sine_lut.h:
 ../Core/Inc/fixedpt.h:
 ../Core/Inc/dsp.h:
-../Core/Inc/assistive_cart_logic.h:
-../Core/Inc/motor_driver.h:
-../Core/Inc/tft_lcd.h:
-../Core/Inc/fonts.h:
+../Core/Inc/storage_controller.h:
 ../FATFS/App/fatfs.h:
 ../Middlewares/Third_Party/FatFs/src/ff.h:
 ../Middlewares/Third_Party/FatFs/src/integer.h:
@@ -106,3 +105,10 @@ Core/Src/system.o: ../Core/Src/system.c ../Core/Inc/system.h \
 ../Middlewares/Third_Party/FatFs/src/diskio.h:
 ../Middlewares/Third_Party/FatFs/src/ff.h:
 ../FATFS/Target/user_diskio.h:
+../Core/Inc/sd_spi.h:
+../Core/Inc/assistive_cart_logic.h:
+../Core/Inc/motor_driver.h:
+../Core/Inc/tft_lcd.h:
+../Core/Inc/fonts.h:
+../Core/Inc/storage_controller.h:
+../Core/Inc/bluetooth.h:

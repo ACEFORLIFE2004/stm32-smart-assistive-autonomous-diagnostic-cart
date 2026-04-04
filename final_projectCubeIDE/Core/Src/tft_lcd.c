@@ -74,16 +74,16 @@ void LCD_DrawChar(uint16_t x, uint16_t y, char c, FontDef_t font, uint16_t color
     // Set the window for the character
     LCD_SetAddressWindow(x, y, x + font.FontWidth - 1, y + font.FontHeight - 1);
 
-    // Loop through each row of the character (18 rows)
+    // Loop through each row of the character
     for (i = 0; i < font.FontHeight; i++) {
-        // Get the 16-bit row data for the character (ASCII offset is 32)
+        // Get the 16-bit row data for the character
         b = font.data[(c - 32) * font.FontHeight + i];
 
-        // Loop through each bit (11 bits wide)
+        // Loop through each bit =
         for (j = 0; j < font.FontWidth; j++) {
             // Check if bit is set (starting from the most significant bit)
             if ((b << j) & 0x8000) {
-                // Send Color (High Byte, then Low Byte)
+                // Send Color
                 uint8_t colorData[] = { color >> 8, color & 0xFF };
                 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET); // DC High
                 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_RESET); // CS Low
@@ -102,7 +102,7 @@ void LCD_DrawChar(uint16_t x, uint16_t y, char c, FontDef_t font, uint16_t color
 
 void LCD_WriteString(uint16_t x, uint16_t y, const char* str, FontDef_t font, uint16_t color, uint16_t bg) {
     while (*str) {
-        // Check if we ran off the screen
+        // Check if we went off the screen
         if (x + font.FontWidth >= 320) break;
 
         LCD_DrawChar(x, y, *str, font, color, bg);
@@ -152,12 +152,10 @@ void LCD_DrawModeSelect() {
     LCD_DrawRect(50, 42, 220, 2, 0xFFFF);
     LCD_DrawRect(50, 46, 220, 1, 0xFFFF);
 
-    // Option 1 Box
-//    LCD_DrawRect(15, 70, 290, 60, 0xFFFF); // White Border
+    // Option 1
     LCD_WriteString(35, 92, "1: CART CONTROL", Font_11x18, 0xFFFF, 0x0000);
 
     // Option 2 Box
-//    LCD_DrawRect(15, 145, 290, 60, 0xFFFF); // White Border
     LCD_WriteString(35, 167, "2: SIGNAL GENERATOR", Font_11x18, 0xFFFF, 0x0000);
 }
 
@@ -184,19 +182,32 @@ void LCD_DrawCartMain() {
 }
 
 void LCD_DrawSigMain() {
+    // Clear Screen
     LCD_DrawRect(0, 0, 320, 240, 0x0000);
 
-    // Waveform Viewport (Top Box)
-    LCD_DrawRect(5, 5, 310, 140, 0x7BEF); // Gray border for the grid
-    LCD_WriteString(85, 65, "[WAVEFORM]", Font_11x18, 0x7BEF, 0x0000); // Placeholder
+    // Header
+    LCD_DrawRect(10, 15, 4, 25, 0x07E0);
+    LCD_WriteString(22, 18, "SIGNAL GEN", Font_11x18, 0x07E0, 0x0000);
 
-    // Control Label
-    LCD_DrawRect(0, 150, 320, 2, 0xFFFF);
-    LCD_WriteString(20, 160, "SELECT INPUT TYPE:", Font_11x18, 0x07E0, 0x0000);
+    // Main Divider
+    LCD_DrawRect(0, 50, 320, 3, 0xFFFF);
+
+    // Mode Label
+    LCD_WriteString(20, 70, "MODE SELECTION:", Font_11x18, 0x07FF, 0x0000);
 
     // Menu Options
-    LCD_WriteString(20, 190, "3: MANUAL INPUT", Font_11x18, 0xFFFF, 0x0000);
-    LCD_WriteString(20, 215, "4: PRESET WAVES", Font_11x18, 0xFFFF, 0x0000);
+
+    // OPTION 3
+    LCD_WriteString(30, 110, "[3]", Font_11x18, 0xF81F, 0x0000); // Magenta key
+    LCD_WriteString(75, 110, "MANUAL INPUT", Font_11x18, 0xFFFF, 0x0000);
+
+    // OPTION 4
+    LCD_WriteString(30, 145, "[4]", Font_11x18, 0xF81F, 0x0000); // Magenta key
+    LCD_WriteString(75, 145, "PRESET WAVES", Font_11x18, 0xFFFF, 0x0000);
+
+    // Footer
+    LCD_DrawRect(10, 210, 300, 1, 0x7BEF); // Subtle gray line
+    LCD_WriteString(20, 215, "WAITING...", Font_11x18, 0x07E0, 0x0000);
 }
 
 void LCD_DrawArbInput() {
@@ -206,16 +217,13 @@ void LCD_DrawArbInput() {
     LCD_WriteString(10, 10, "ARBITRARY GENERATOR", Font_11x18, 0xF81F, 0x0000); // Magenta
     LCD_DrawLine(0, 35, 320, 35, 0xFFFF);
 
-    // Row 1: File/Source Status
-    LCD_WriteString(10, 50, "SOURCE: SD CARD", Font_11x18, 0xFFFF, 0x0000);
-
-    // Row 2: Digital Filter
+    // Digital Filter
     LCD_WriteString(10, 90, "1. FILTER:", Font_11x18, 0xFFFF, 0x0000);
 
-    // Row 3: Output Mode (FFT or Wave)
+    // Output Mode
     LCD_WriteString(10, 130, "2. OUTPUT:", Font_11x18, 0xFFFF, 0x0000);
 
-    // Row 4: Sample Size
+    // Sample Size
     LCD_WriteString(10, 170, "SAMPLES:", Font_11x18, 0xFFFF, 0x0000);
 
     // Footer
@@ -229,20 +237,15 @@ void LCD_DrawFuncInput() {
     LCD_WriteString(10, 10, "FUNCTION GENERATOR", Font_11x18, 0x07FF, 0x0000); // Cyan
     LCD_DrawLine(0, 35, 320, 35, 0xFFFF); // Divider line
 
-    // Row 1: Wave Shape
+    // Wave Shape
     LCD_WriteString(10, 50, "1. SHAPE:", Font_11x18, 0xFFFF, 0x0000);
-    // Logic later: Display "Sine", "Square", etc. based on wav_function
 
-    // Row 2: Frequency
+    // Frequency
     LCD_WriteString(10, 90, "2. FREQ (Hz):", Font_11x18, 0xFFFF, 0x0000);
     // Display current freq (e.g., "1000")
 
-    // Row 3: Amplitude
+    // Amplitude
     LCD_WriteString(10, 130, "3. AMPL (V):", Font_11x18, 0xFFFF, 0x0000);
-    // Display current amplitude (e.g., "1.20")
-
-    // Row 4: Filter (NOT DOING)
-//    LCD_WriteString(10, 170, "4. FILTER:", Font_11x18, 0xFFFF, 0x0000);
 
     // Footer
     LCD_WriteString(10, 215, "[*] Run  [#] Back", Font_11x18, 0xF800, 0x0000); // Red hint
